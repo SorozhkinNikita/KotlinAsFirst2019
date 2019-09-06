@@ -72,7 +72,7 @@ if (2<=age && age<=4)
     return "$age года"
 if (5<=age && age<=20)
     return "$age лет"
-if (age>=21 && age<=100 || age>=121) {
+if (age>=21 && age<=105 || age>=121) {
     val c=age%10
     if (c==1) return "$age год"
     if (2<=c && c<=4) return "$age года"
