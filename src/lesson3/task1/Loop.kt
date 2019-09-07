@@ -69,15 +69,14 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun digitNumber(n: Int): Int
-{
-    var count=0
-    var number=n
+fun digitNumber(n: Int): Int {
+    var count = 0
+    var number = n
     do {
-        number/=10
+        number /= 10
         count++
-    } while (n>0)
-   return count
+    } while (number > 0)
+    return count
 }
 
 /**
@@ -86,17 +85,16 @@ fun digitNumber(n: Int): Int
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int
-{
-    var n1=1
-    var n2=1
-    var n3=n2+n1
+fun fib(n: Int): Int {
+    var n1 = 1
+    var n2 = 1
+    var n3 = n2 + n1
     for (i in 3..n) {
-        n3=n2+n1
-        n1=n2
-        n2=n3
+        n3 = n2 + n1
+        n1 = n2
+        n2 = n3
     }
-    if (n<3) return 1 else return n3
+    if (n < 3) return 1 else return n3
 }
 
 /**
@@ -105,13 +103,13 @@ fun fib(n: Int): Int
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int
-{
-var min=min(m,n)
-    val max=max(m,n)
-    while (min%max.toDouble()!=0.0)
-        min+=min(m,n)
-    return min
+fun lcm(m: Int, n: Int): Int {
+    var a = 0
+    for (i in max(m, n)..m * n) {
+        a = i
+        if (a % m.toDouble() == 0.0 && a % n.toDouble() == 0.0) break
+    }
+    return a
 }
 
 /**
@@ -119,14 +117,32 @@ var min=min(m,n)
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int
+{
+    var a=0
+    for (i in 2..n/2)
+        if (n%i.toDouble()==0.0) {
+            a=i
+            break
+        }
+    if (a==0) return n else return a
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int
+{
+    var a=0
+    for (i in n-1 downTo 1)
+        if (n%i.toDouble()==0.0) {
+            a = i
+            break
+        }
+    return a
+}
 
 /**
  * Простая
@@ -237,3 +253,8 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun fibSequenceDigit(n: Int): Int = TODO()
+
+fun main() {
+    val a = digitNumber(1)
+    println(a)
+}
