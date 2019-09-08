@@ -2,8 +2,10 @@
 
 package lesson3.task1
 
+import kotlinx.html.I
 import kotlin.math.max
 import kotlin.math.min
+import kotlin.math.pow
 import kotlin.math.sqrt
 
 /**
@@ -164,10 +166,11 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
     var i = 0
-    do {
-        if (i * i in m..n) return true else
-            i++
-    } while (i * i <= n)
+    while (i * i <= n) {
+        if (i * i in m..n)
+            return true
+        i++
+    }
     return false
 }
 
@@ -187,7 +190,22 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * Написать функцию, которая находит, сколько шагов требуется для
  * этого для какого-либо начального X > 0.
  */
-fun collatzSteps(x: Int): Int = TODO()
+fun collatzSteps(x: Int): Int {
+    var a = 0
+    var b = x
+    while (b != 1) {
+        if (b % 2.0 == 0.0) b /= 2 else b = 3 * b + 1
+        a++
+    }
+    return a
+}
+//    var a: Int
+//    if (x == 1) return a else {
+//        a++
+//        if (x % 2.0 == 0.0) collatzSteps(x / 2) else collatzSteps(3 * x + 1)
+//    }
+//    return a
+
 
 /**
  * Средняя
@@ -198,7 +216,26 @@ fun collatzSteps(x: Int): Int = TODO()
  * Подумайте, как добиться более быстрой сходимости ряда при больших значениях x.
  * Использовать kotlin.math.sin и другие стандартные реализации функции синуса в этой задаче запрещается.
  */
-fun sin(x: Double, eps: Double): Double = TODO()
+fun sin(x: Double, eps: Double): Double {
+    var e = 1
+    var k = true
+    var c = x.pow(e) / factorial(e).toDouble()
+    var s: Double = 0.0
+    while (x.pow(e) / factorial(e).toDouble() >= eps) {
+
+        if (k == true) {
+            c = x.pow(e) / factorial(e).toDouble()
+            s += c
+            k = false
+        } else {
+            c = x.pow(e) / factorial(e).toDouble()
+            s -= c
+            k = true
+        }
+        e += 2
+    }
+    return s
+}
 
 /**
  * Средняя
@@ -218,7 +255,16 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int
+{
+    var a=n
+    var b=0
+    while (a>0){
+        b=b*10+a%10
+        a/=10
+    }
+    return b
+}
 
 /**
  * Средняя
@@ -229,7 +275,9 @@ fun revert(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean {
+    
+}
 
 /**
  * Средняя
