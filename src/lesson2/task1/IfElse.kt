@@ -66,19 +66,20 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
 fun ageDescription(age: Int): String {
-if (age==1)
-    return "$age год"
-if (2<=age && age<=4)
-    return "$age года"
-if (5<=age && age<=20)
-    return "$age лет"
-if (age>=21 && age<=105 || age>=121) {
-    val c=age%10
-    if (c==1) return "$age год"
-    if (2<=c && c<=4) return "$age года"
-    if (c==0 || 5<=c && c<=9) return "$age лет"
+    when (age) {
+        1 -> return "$age год"
+        in 2..4 -> return "$age года"
+        in 5..20 -> return "$age лет"
+        in 21..105, in 121..200 -> {
+            val c = age % 10
+            when (c) {
+                1 -> return "$age год"
+                in 2..4 -> return "$age года"
+                in 5..9, 0 -> return "$age лет"
+            }
+        }
+        else -> return "$age лет"
     }
-    else return "$age лет"
     return ""
 }
 
@@ -93,12 +94,11 @@ fun timeForHalfWay(
     t1: Double, v1: Double,
     t2: Double, v2: Double,
     t3: Double, v3: Double
-): Double
-{
-    val half: Double = (t1*v1+t2*v2+t3*v3)/2.0
-    if (t1*v1>=half) return half/v1 else
-    if (t1*v1+t2*v2<=half) return t1+t2+t3-half/v3 else
-    if (half>t1*v1 && half<t1*v1+t2*v2) return (half-t1*v1)/v2+t1
+): Double {
+    val half: Double = (t1 * v1 + t2 * v2 + t3 * v3) / 2.0
+    if (t1 * v1 >= half) return half / v1 else
+        if (t1 * v1 + t2 * v2 <= half) return t1 + t2 + t3 - half / v3 else
+            if (half > t1 * v1 && half < t1 * v1 + t2 * v2) return (half - t1 * v1) / v2 + t1
     return 0.0
 }
 
@@ -116,9 +116,13 @@ fun whichRookThreatens(
     rookX1: Int, rookY1: Int,
     rookX2: Int, rookY2: Int
 ): Int {
-    if (kingX==rookX1 && kingY==rookY2 || kingY==rookY1 && kingX==rookX2 || kingX==rookX1 && kingX==rookX2 || kingY==rookY1 && kingY==rookY2) return 3
-    if (kingX==rookX2 || kingY==rookY2) return 2
-    if (kingX==rookX1 || kingY==rookY1) return 1
+    val xx1 = kingX == rookX1
+    val yy2 = kingY == rookY2
+    val yy1 = kingY == rookY1
+    val xx2 = kingX == rookX2
+    if (xx1 && yy2 || yy1 && xx2 || xx1 && xx2 || yy1 && yy2) return 3
+    if (xx2 || yy2) return 2
+    if (xx1 || yy1) return 1
     return 0
 }
 
@@ -136,15 +140,14 @@ fun rookOrBishopThreatens(
     kingX: Int, kingY: Int,
     rookX: Int, rookY: Int,
     bishopX: Int, bishopY: Int
-): Int
-{
-    val slon:Boolean=abs(kingX-bishopX)==abs(kingY-bishopY)
-    val ladya:Boolean=if (kingX==rookX || kingY==rookY) true else false
-    if (slon==false && ladya==false) return 0
-    if (slon==true && ladya==true) return 3
-    if (slon==true) return 2
-    if (ladya==true) return 1
-return 0
+): Int {
+    val bishop = abs(kingX - bishopX) == abs(kingY - bishopY)
+    val rook: Boolean = kingX == rookX || kingY == rookY
+    if (!bishop && !rook) return 0
+    if (bishop && rook) return 3
+    if (bishop) return 2
+    if (rook) return 1
+    return 0
 }
 
 /**
@@ -155,15 +158,14 @@ return 0
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int
-{
-    val cos1=(sqr(b)+ sqr(c)- sqr(a))/(2.0*b*c)
-    val cos2=(sqr(c)+ sqr(a)- sqr(b))/(2.0*c*a)
-    val cos3=(sqr(a)+ sqr(b)- sqr(c))/(2.0*a*b)
-    if (cos1>1.0 || cos2>1.0 || cos3>1.0) return -1 else
-    if (cos1==0.0 || cos2==0.0 || cos3==0.0) return 1 else
-    if (cos1<0.0 || cos2<0.0 || cos3<0.0) return 2 else
-    if (cos1>0.0 && cos2>0.0 && cos3>0.0 && cos1<1.0 && cos2<1.0 && cos3<1.0) return 0
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+    val cos1 = (sqr(b) + sqr(c) - sqr(a)) / (2.0 * b * c)
+    val cos2 = (sqr(c) + sqr(a) - sqr(b)) / (2.0 * c * a)
+    val cos3 = (sqr(a) + sqr(b) - sqr(c)) / (2.0 * a * b)
+    if (cos1 > 1.0 || cos2 > 1.0 || cos3 > 1.0) return -1 else
+        if (cos1 == 0.0 || cos2 == 0.0 || cos3 == 0.0) return 1 else
+            if (cos1 < 0.0 || cos2 < 0.0 || cos3 < 0.0) return 2 else
+                if (cos1 > 0.0 && cos2 > 0.0 && cos3 > 0.0 && cos1 < 1.0 && cos2 < 1.0 && cos3 < 1.0) return 0
     return 5
 
 }
@@ -176,33 +178,13 @@ fun triangleKind(a: Double, b: Double, c: Double): Int
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int
-{
-    if (b<c && b<d) return -1
-    if (b>=c && b<=d && a<=c) return b-c
-    if (d<a && d<b) return -1
-    if (d>=a && d<=b && c<=a) return d-a
-    if (c>=a && d<=b) return d-c
-    if (a>=c && b<=d) return b-a
-return 0
-}
-//{
-//    if (b<c||d<a) return -1
-//    else {
-//        if (c<b&&c>a) return b-c
-//        else {
-//            if (a < d && a > c) return d - a
-//            else return 0
-//        }
-//    }
-//}
-fun main() {
-//    val a=timeForHalfWay(1.0,5.0,2.0,4.0,3.0,3.0)
-//    println(a)
-//    val kingX=4
-//    val kingY=8
-//    val  bishopX=7
-//    val bishopY=5
-//    val slon:Boolean=abs(kingX-bishopX)==abs(kingY-bishopY)
-//    println(slon)
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    //Через min max пока не понял как сделать, вернусь чуть позже
+    if (b < c && b < d) return -1
+    if (b in c..d && a <= c) return b - c
+    if (d < a && d < b) return -1
+    if (d in a..b && c <= a) return d - a
+    if (c >= a && d <= b) return d - c
+    if (a >= c && b <= d) return b - a
+    return 0
 }

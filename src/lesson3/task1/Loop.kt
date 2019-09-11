@@ -16,7 +16,7 @@ import kotlin.math.sqrt
 fun factorial(n: Int): Double {
     var result = 1.0
     for (i in 1..n) {
-        result = result * i // Please do not fix in master
+        result *= i // Please do not fix in master
     }
     return result
 }
@@ -106,12 +106,13 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var a = 0
-    for (i in max(m, n)..m * n) {
-        a = i
-        if (a % m.toDouble() == 0.0 && a % n.toDouble() == 0.0) break
+    var m1 = m
+    var n1 = n
+    while (m1 != n1) {
+        if (m1>n1) m1 -= n1 else n1 -=m1
     }
-    return a
+    return (m * n / m1)
+
 }
 
 /**
@@ -121,7 +122,7 @@ fun lcm(m: Int, n: Int): Int {
  */
 fun minDivisor(n: Int): Int {
     var a = 0
-    for (i in 2..n / 2)
+    for (i in 2..sqrt(n.toDouble()).toInt())
         if (n % i.toDouble() == 0.0) {
             a = i
             break
@@ -166,10 +167,10 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
     var i = 0
-    while (i * i <= n) {
+    while (i * i <= n && m <= 2147395600) {
         if (i * i in m..n)
-            return true
-        i++
+            return true else
+            i++
     }
     return false
 }
@@ -216,26 +217,26 @@ fun collatzSteps(x: Int): Int {
  * Подумайте, как добиться более быстрой сходимости ряда при больших значениях x.
  * Использовать kotlin.math.sin и другие стандартные реализации функции синуса в этой задаче запрещается.
  */
-fun sin(x: Double, eps: Double): Double {
-    var e = 1
-    var k = true
-    var c = x.pow(e) / factorial(e).toDouble()
-    var s: Double = 0.0
-    while (x.pow(e) / factorial(e).toDouble() >= eps) {
-
-        if (k == true) {
-            c = x.pow(e) / factorial(e).toDouble()
-            s += c
-            k = false
-        } else {
-            c = x.pow(e) / factorial(e).toDouble()
-            s -= c
-            k = true
-        }
-        e += 2
-    }
-    return s
-}
+fun sin(x: Double, eps: Double): Double = TODO()
+//{
+//    var e = 1
+//    var k = true
+//    var s: Double = 0.0
+//    while (x.pow(e) / factorial(e).toDouble() >= eps) {
+//
+//        if (k) {
+//            c = x.pow(e) / factorial(e).toDouble()
+//            s += c
+//            k = false
+//        } else {
+//            c = x.pow(e) / factorial(e).toDouble()
+//            s -= c
+//            k = true
+//        }
+//        e += 2
+//    }
+//    return s
+//}
 
 /**
  * Средняя
@@ -255,16 +256,7 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun revert(n: Int): Int
-{
-    var a=n
-    var b=0
-    while (a>0){
-        b=b*10+a%10
-        a/=10
-    }
-    return b
-}
+fun revert(n: Int): Int = TODO()
 
 /**
  * Средняя
@@ -275,9 +267,7 @@ fun revert(n: Int): Int
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun isPalindrome(n: Int): Boolean {
-    
-}
+fun isPalindrome(n: Int): Boolean = TODO()
 
 /**
  * Средняя
@@ -311,7 +301,3 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  */
 fun fibSequenceDigit(n: Int): Int = TODO()
 
-fun main() {
-    val a = digitNumber(1)
-    println(a)
-}
