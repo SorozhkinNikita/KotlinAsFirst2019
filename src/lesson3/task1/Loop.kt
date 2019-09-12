@@ -133,15 +133,6 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int = TODO()
-//{
-//    var a = 0
-//    for (i in n - 1 downTo 1)
-//        if (n % i.toDouble() == 0.0) {
-//            a = i
-//            break
-//        }
-//    return a
-//}
 
 /**
  * Простая
@@ -151,11 +142,6 @@ fun maxDivisor(n: Int): Int = TODO()
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean = TODO()
-//{
-//    for (i in 2..max(m, n))
-//        if (m % i.toDouble() == 0.0 && n % i.toDouble() == 0.0) return false
-//    return true
-//}
 
 /**
  * Простая
@@ -199,14 +185,6 @@ fun collatzSteps(x: Int): Int {
     }
     return a
 }
-//    var a: Int
-//    if (x == 1) return a else {
-//        a++
-//        if (x % 2.0 == 0.0) collatzSteps(x / 2) else collatzSteps(3 * x + 1)
-//    }
-//    return a
-
-
 /**
  * Средняя
  *
@@ -217,25 +195,6 @@ fun collatzSteps(x: Int): Int {
  * Использовать kotlin.math.sin и другие стандартные реализации функции синуса в этой задаче запрещается.
  */
 fun sin(x: Double, eps: Double): Double = TODO()
-//{
-//    var e = 1
-//    var k = true
-//    var s: Double = 0.0
-//    while (x.pow(e) / factorial(e).toDouble() >= eps) {
-//
-//        if (k) {
-//            c = x.pow(e) / factorial(e).toDouble()
-//            s += c
-//            k = false
-//        } else {
-//            c = x.pow(e) / factorial(e).toDouble()
-//            s -= c
-//            k = true
-//        }
-//        e += 2
-//    }
-//    return s
-//}
 
 /**
  * Средняя
@@ -288,22 +247,6 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun squareSequenceDigit(n: Int): Int = TODO()
-//{
-//    var count = n
-//    var i = 1
-//    while (count > 0) {
-//        var d = count - digitNumber(i * i)
-//        if (d == 0) return i * i % 10
-//        if (d < 0) {
-//            return i * i / 10.0.pow(count).toInt() % 10
-//        } else {
-//            i++
-//            count = d
-//        }
-//    }
-//    return -1
-//}
-
 
 /**
  * Сложная
