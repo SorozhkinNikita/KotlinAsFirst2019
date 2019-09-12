@@ -3,10 +3,7 @@
 package lesson3.task1
 
 import kotlinx.html.I
-import kotlin.math.max
-import kotlin.math.min
-import kotlin.math.pow
-import kotlin.math.sqrt
+import kotlin.math.*
 
 /**
  * Пример
@@ -292,6 +289,22 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun squareSequenceDigit(n: Int): Int = TODO()
+//{
+//    var count = n
+//    var i = 1
+//    while (count > 0) {
+//        var d = count - digitNumber(i * i)
+//        if (d == 0) return i * i % 10
+//        if (d < 0) {
+//            return i * i / 10.0.pow(count).toInt() % 10
+//        } else {
+//            i++
+//            count = d
+//        }
+//    }
+//    return -1
+//}
+
 
 /**
  * Сложная

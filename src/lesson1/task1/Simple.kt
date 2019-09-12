@@ -69,7 +69,6 @@ fun seconds(hours: Int, minutes: Int, seconds: Int): Int = hours * 3600 + minute
  * 1 сажень = 3 аршина = 48 вершков, 1 вершок = 4.445 см.
  */
 fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double =
-
     (sagenes * 48 + arshins * 16 + vershoks) * 4.445 / 100.0
 
 /**
@@ -116,9 +115,9 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
 
 fun accountInThreeYears(initial: Int, percent: Int): Double {
     val a = (1.0 + percent / 100.0)
-
-    return initial * a * a * a
+    return initial * a.pow(3)
 }
+
 /**
  * Простая
  *
