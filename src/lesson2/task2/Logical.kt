@@ -3,8 +3,9 @@
 package lesson2.task2
 
 import lesson1.task1.sqr
-import lesson4.task1.abs
 import kotlin.math.abs
+import kotlin.math.max
+import kotlin.math.min
 import kotlin.math.sqrt
 
 /**
@@ -38,8 +39,8 @@ fun isNumberHappy(number: Int): Boolean {
  * Считать, что ферзи не могут загораживать друг друга.
  */
 fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
-    val di: Boolean = abs(x1 - x2) == abs(y1 - y2)
-    val pr: Boolean = x1 == x2 || y1 == y2
+    val di = abs(x1 - x2) == abs(y1 - y2)
+    val pr = x1 == x2 || y1 == y2
     return di || pr
 }
 
@@ -50,10 +51,14 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
  * Дан номер месяца (от 1 до 12 включительно) и год (положительный).
  * Вернуть число дней в этом месяце этого года по григорианскому календарю.
  */
-fun daysInMonth(month: Int, year: Int): Int = when (month) {
-    1, 3, 5, 7, 8, 10, 12 -> 31
-    4, 6, 9, 11 -> 30
-    else -> if (year % 4 == 0 && year % 100 != 0 || year % 400 == 0) 29 else 28
+fun daysInMonth(month: Int, year: Int): Int {
+    val a = month <= 7
+    val b = month % 2 == 1
+    return when {
+        a && b || !a && !b -> 31
+        month == 2 -> if (year % 4 == 0 && year % 100 != 0 || year % 400 == 0) 29 else 28
+        else -> 30
+    }
 }
 
 /**
@@ -78,4 +83,12 @@ fun circleInside(
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean =
-    a <= r && b <= s || b <= r && a <= s || a <= r && c <= s || c <= r && a <= s || b <= r && c <= s || c <= r && b <= s
+    middle(a, b, c) <= max(r, s) && minOf(a, b, c) <= min(r, s)
+
+fun middle(a: Int, b: Int, c: Int): Int {
+    return when {
+        b in a..c || b in c..a -> b
+        c in a..b || c in b..a -> c
+        else -> a
+    }
+}

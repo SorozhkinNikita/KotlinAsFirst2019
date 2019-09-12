@@ -2,7 +2,7 @@
 
 package lesson3.task1
 
-import kotlinx.html.I
+
 import kotlin.math.*
 
 /**
@@ -70,8 +70,7 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  */
 fun digitNumber(n: Int): Int {
     var count = 0
-    var number = n
-    if (n < 0) number = n * (-1)
+    var number = abs(n)
     do {
         number /= 10
         count++
@@ -86,15 +85,17 @@ fun digitNumber(n: Int): Int {
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int {
-    var n1 = 1
-    var n2 = 1
-    var n3 = n2 + n1
-    for (i in 3..n) {
-        n3 = n2 + n1
-        n1 = n2
-        n2 = n3
+    return if (n < 3) 1 else {
+        var n1 = 1
+        var n2 = 1
+        var n3 = n2 + n1
+        for (i in 3..n) {
+            n3 = n2 + n1
+            n1 = n2
+            n2 = n3
+        }
+        n3
     }
-    if (n < 3) return 1 else return n3
 }
 
 /**
@@ -109,7 +110,7 @@ fun lcm(m: Int, n: Int): Int {
     while (m1 != n1) {
         if (m1 > n1) m1 -= n1 else n1 -= m1
     }
-    return (m * n / m1)
+    return m * n / m1
 
 }
 
@@ -119,13 +120,11 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    var a = 0
     for (i in 2..sqrt(n.toDouble()).toInt())
         if (n % i.toDouble() == 0.0) {
-            a = i
-            break
+            return i
         }
-    if (a == 0) return n else return a
+    return n
 }
 
 /**
