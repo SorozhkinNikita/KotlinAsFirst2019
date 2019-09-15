@@ -28,7 +28,6 @@ fun isNumberHappy(number: Int): Boolean {
     val n3 = number / 100 % 10
     val n4 = number / 1000 % 10
     return n1 + n2 == n3 + n4
-
 }
 
 /**
@@ -39,9 +38,9 @@ fun isNumberHappy(number: Int): Boolean {
  * Считать, что ферзи не могут загораживать друг друга.
  */
 fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
-    val di = abs(x1 - x2) == abs(y1 - y2)
-    val pr = x1 == x2 || y1 == y2
-    return di || pr
+    val diagonal = abs(x1 - x2) == abs(y1 - y2)
+    val straight = x1 == x2 || y1 == y2
+    return diagonal || straight
 }
 
 
@@ -83,9 +82,9 @@ fun circleInside(
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean =
-    middle(a, b, c) <= max(r, s) && minOf(a, b, c) <= min(r, s)
+    middleElement(a, b, c) <= max(r, s) && minOf(a, b, c) <= min(r, s)
 
-fun middle(a: Int, b: Int, c: Int): Int {
+fun middleElement(a: Int, b: Int, c: Int): Int {
     return when {
         b in a..c || b in c..a -> b
         c in a..b || c in b..a -> c
