@@ -197,19 +197,19 @@ fun collatzSteps(x: Int): Int {
  * Подумайте, как добиться более быстрой сходимости ряда при больших значениях x.
  * Использовать kotlin.math.sin и другие стандартные реализации функции синуса в этой задаче запрещается.
  */
-fun sin(x: Double, eps: Double): Double = TODO()
-//{
-//    val k = -1.0
-//    var i = 0
-//    var sum: Double = 0.0
-//    var member = x.pow(2 * i + 1) / factorial(2 * i + 1)
-//    while (member >= eps) {
-//        sum += k.pow(i) * member
-//        i++
-//        member = x.pow(2 * i + 1) / factorial(2 * i + 1)
-//    }
-//    return sum
-//}
+//Я не могу найти ошибку. На тесте с x = 100*PI выдает Nan
+fun sin(x: Double, eps: Double): Double {
+    val k = -1.0
+    var i = 0
+    var sum = 0.0
+    var member = x.pow(2 * i + 1) / factorial(2 * i + 1)
+    while (member >= eps) {
+        sum += k.pow(i) * member
+        i++
+        member = x.pow(2 * i + 1) / factorial(2 * i + 1)
+    }
+    return sum
+}
 
 /**
  * Средняя
@@ -231,7 +231,7 @@ fun cos(x: Double, eps: Double): Double = TODO()
  */
 fun revert(n: Int): Int {
     var invertedN = 0
-    var k = 10
+    val k = 10
     var number = n
     while (number > 0) {
         invertedN = invertedN * k + number % 10
@@ -250,10 +250,10 @@ fun revert(n: Int): Int {
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun isPalindrome(n: Int): Boolean {
-    var digit = digitNumber(n)
+    val digit = digitNumber(n)
     for (j in 0 until digit / 2) {
-        var a = n / 10.0.pow(j).toInt() % 10
-        var b = n / 10.0.pow(digit - j - 1).toInt() % 10
+        val a = n / 10.0.pow(j).toInt() % 10
+        val b = n / 10.0.pow(digit - j - 1).toInt() % 10
         if (a != b) return false
     }
     return true
@@ -269,7 +269,9 @@ fun isPalindrome(n: Int): Boolean {
  */
 fun hasDifferentDigits(n: Int): Boolean {
     var number = n
-
+    while (number > 9)
+        if (number % 10 != number / 10 % 10) return true else number /= 10
+    return false
 }
 
 /**
@@ -281,7 +283,17 @@ fun hasDifferentDigits(n: Int): Boolean {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var sum = 0
+    var i = 1
+    while (sum < n) {
+        sum += digitNumber(i * i)
+        i++
+    }
+    val delta = sum - n
+    i--
+    return i * i / 10.0.pow(delta).toInt() % 10
+}
 
 /**
  * Сложная
@@ -292,4 +304,15 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var sum = 0
+    var i = 1
+    while (sum < n) {
+        sum += digitNumber(fib(i))
+        i++
+    }
+    val delta = sum - n
+    i--
+    return fib(i) / 10.0.pow(delta).toInt() % 10
+
+}
