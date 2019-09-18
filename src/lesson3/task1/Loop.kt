@@ -134,7 +134,7 @@ fun maxDivisor(n: Int): Int {
     if (isPrime(n)) return 1
     for (i in n - 1 downTo sqrt(n.toDouble()).toInt())
         if (n % i.toDouble() == 0.0) return i
-    return error("something went wrong")
+    return error("something went wrong") //Не знаю как обойтись без этого костыля
 }
 
 /**
