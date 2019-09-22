@@ -199,7 +199,7 @@ fun collatzSteps(x: Int): Int {
  */
 fun sin(x: Double, eps: Double): Double {
     var xNew = x
-    while (xNew > 2*PI) xNew -= 2 * PI
+    while (xNew > 2 * PI) xNew -= 2 * PI
     while (xNew < 0) xNew += 2 * PI
     val k = -1.0
     var i = 0
@@ -224,7 +224,7 @@ fun sin(x: Double, eps: Double): Double {
  */
 fun cos(x: Double, eps: Double): Double {
     var xNew = x
-    while (xNew > 2*PI) xNew -= 2 * PI
+    while (xNew > 2 * PI) xNew -= 2 * PI
     while (xNew < 0) xNew += 2 * PI
     val k = -1.0
     var i = 0
