@@ -197,16 +197,18 @@ fun collatzSteps(x: Int): Int {
  * Подумайте, как добиться более быстрой сходимости ряда при больших значениях x.
  * Использовать kotlin.math.sin и другие стандартные реализации функции синуса в этой задаче запрещается.
  */
-//Я не могу найти ошибку. На тесте с x = 100*PI выдает Nan
 fun sin(x: Double, eps: Double): Double {
+    var xNew = x
+    while (xNew > 2*PI) xNew -= 2 * PI
+    while (xNew < 0) xNew += 2 * PI
     val k = -1.0
     var i = 0
     var sum = 0.0
-    var member = x.pow(2 * i + 1) / factorial(2 * i + 1)
+    var member = xNew.pow(2 * i + 1) / factorial(2 * i + 1)
     while (member >= eps) {
         sum += k.pow(i) * member
         i++
-        member = x.pow(2 * i + 1) / factorial(2 * i + 1)
+        member = xNew.pow(2 * i + 1) / factorial(2 * i + 1)
     }
     return sum
 }
@@ -220,7 +222,21 @@ fun sin(x: Double, eps: Double): Double {
  * Подумайте, как добиться более быстрой сходимости ряда при больших значениях x.
  * Использовать kotlin.math.cos и другие стандартные реализации функции косинуса в этой задаче запрещается.
  */
-fun cos(x: Double, eps: Double): Double = TODO()
+fun cos(x: Double, eps: Double): Double {
+    var xNew = x
+    while (xNew > 2*PI) xNew -= 2 * PI
+    while (xNew < 0) xNew += 2 * PI
+    val k = -1.0
+    var i = 0
+    var sum = 0.0
+    var member = xNew.pow(2 * i) / factorial(2 * i)
+    while (member >= eps) {
+        sum += k.pow(i) * member
+        i++
+        member = xNew.pow(2 * i) / factorial(2 * i)
+    }
+    return sum
+}
 
 /**
  * Средняя
