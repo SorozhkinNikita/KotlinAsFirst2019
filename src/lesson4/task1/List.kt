@@ -3,6 +3,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import lesson1.task1.sqr
 import kotlin.math.sqrt
 
 /**
@@ -116,13 +117,23 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * Модуль пустого вектора считать равным 0.0.
  */
 fun abs(v: List<Double>): Double = TODO()
+//{
+//    v.map { it * it }
+//    val sum = v.sum()
+//    return sqrt(sum)
+//}
 
 /**
  * Простая
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double = TODO()
+fun mean(list: List<Double>): Double {
+    val size = list.size
+    if (size == 0) return 0.0
+    val sum = list.sum()
+    return sum / size.toDouble()
+}
 
 /**
  * Средняя
@@ -133,6 +144,11 @@ fun mean(list: List<Double>): Double = TODO()
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
 fun center(list: MutableList<Double>): MutableList<Double> = TODO()
+//{
+//    if (list.size == 0) return list
+//    list.map { it - mean(list) }
+//    return list
+//}
 
 /**
  * Средняя
@@ -142,7 +158,9 @@ fun center(list: MutableList<Double>): MutableList<Double> = TODO()
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.
  */
 fun times(a: List<Int>, b: List<Int>): Int = TODO()
-
+//{
+//    var list : List<Int> =
+//}
 /**
  * Средняя
  *
