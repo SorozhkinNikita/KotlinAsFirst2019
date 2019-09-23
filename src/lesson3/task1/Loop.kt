@@ -86,17 +86,16 @@ fun digitNumber(n: Int): Int {
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int {
-    return if (n < 3) 1 else {
-        var n1 = 1
-        var n2 = 1
-        var n3 = n2 + n1
-        for (i in 3..n) {
-            n3 = n2 + n1
-            n1 = n2
-            n2 = n3
-        }
-        n3
+    if (n < 3) return 1
+    var n1 = 1
+    var n2 = 1
+    var n3 = n2 + n1
+    for (i in 3..n) {
+        n3 = n2 + n1
+        n1 = n2
+        n2 = n3
     }
+    return n3
 }
 
 /**
@@ -120,8 +119,9 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    for (i in 2..sqrt(n.toDouble()).toInt())
+    for (i in 2..sqrt(n.toDouble()).toInt()) {
         if (n % i.toDouble() == 0.0) return i
+    }
     return n
 }
 
@@ -201,12 +201,11 @@ fun sin(x: Double, eps: Double): Double {
     var xNew = x
     while (xNew > 2 * PI) xNew -= 2 * PI
     while (xNew < 0) xNew += 2 * PI
-    val k = -1.0
     var i = 0
     var sum = 0.0
     var member = xNew.pow(2 * i + 1) / factorial(2 * i + 1)
     while (member >= eps) {
-        sum += k.pow(i) * member
+        sum += (-1.0).pow(i) * member
         i++
         member = xNew.pow(2 * i + 1) / factorial(2 * i + 1)
     }
@@ -226,12 +225,11 @@ fun cos(x: Double, eps: Double): Double {
     var xNew = x
     while (xNew > 2 * PI) xNew -= 2 * PI
     while (xNew < 0) xNew += 2 * PI
-    val k = -1.0
     var i = 0
     var sum = 0.0
     var member = xNew.pow(2 * i) / factorial(2 * i)
     while (member >= eps) {
-        sum += k.pow(i) * member
+        sum += (-1.0).pow(i) * member
         i++
         member = xNew.pow(2 * i) / factorial(2 * i)
     }
@@ -265,15 +263,9 @@ fun revert(n: Int): Int {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun isPalindrome(n: Int): Boolean {
-    val digit = digitNumber(n)
-    for (j in 0 until digit / 2) {
-        val a = n / 10.0.pow(j).toInt() % 10
-        val b = n / 10.0.pow(digit - j - 1).toInt() % 10
-        if (a != b) return false
-    }
-    return true
-}
+fun isPalindrome(n: Int): Boolean =
+    n / 10.0.pow(digitNumber(n) - digitNumber(n) / 2).toInt() == revert(n % 10.0.pow(digitNumber(n) / 2).toInt())
+//только стоит ли ради записи в 1 строку 3 раза выполнять функцию кол-во цифр в числе?
 
 /**
  * Средняя
@@ -330,5 +322,4 @@ fun fibSequenceDigit(n: Int): Int {
     val delta = sum - n
     i--
     return fib(i) / 10.0.pow(delta).toInt() % 10
-
 }
