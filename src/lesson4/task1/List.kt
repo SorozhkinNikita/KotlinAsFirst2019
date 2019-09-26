@@ -233,10 +233,11 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*
 fun convert(n: Int, base: Int): List<Int> {
     var number = n
     var list = mutableListOf<Int>()
-    while (number > base) {
-        list.add(number / base)
-        number %= base
+    while (number > 0) {
+        list.add(0, number % base)
+        number /= base
     }
+    return list
 }
 
 /**
@@ -250,7 +251,9 @@ fun convert(n: Int, base: Int): List<Int> {
  * Использовать функции стандартной библиотеки, напрямую и полностью решающие данную задачу
  * (например, n.toString(base) и подобные), запрещается.
  */
-fun convertToString(n: Int, base: Int): String = TODO()
+val qwerty = "abcdefghijklmnopqrstuvwxyz"
+fun convertToString(n: Int, base: Int): String =
+    convert(n, base).map { if (it > 9) qwerty[it - 10] else it }.joinToString("")
 
 /**
  * Средняя
@@ -259,7 +262,8 @@ fun convertToString(n: Int, base: Int): String = TODO()
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int = TODO()
+fun decimal(digits: List<Int>, base: Int): Int =
+    digits.foldRight(0) { element, previousResult -> previousResult * base + element }
 
 /**
  * Сложная
