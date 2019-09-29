@@ -252,6 +252,7 @@ fun convert(n: Int, base: Int): List<Int> {
  * (например, n.toString(base) и подобные), запрещается.
  */
 val qwerty = "abcdefghijklmnopqrstuvwxyz"
+
 fun convertToString(n: Int, base: Int): String =
     convert(n, base).map { if (it > 9) qwerty[it - 10] else it }.joinToString("")
 
@@ -263,7 +264,7 @@ fun convertToString(n: Int, base: Int): String =
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
 fun decimal(digits: List<Int>, base: Int): Int =
-    digits.foldRight(0) { element, previousResult -> previousResult * base + element }
+    digits.fold(0) { prev, res -> prev * base + res }
 
 /**
  * Сложная
@@ -277,7 +278,14 @@ fun decimal(digits: List<Int>, base: Int): Int =
  * Использовать функции стандартной библиотеки, напрямую и полностью решающие данную задачу
  * (например, str.toInt(base)), запрещается.
  */
-fun decimalFromString(str: String, base: Int): Int = TODO()
+
+fun decimalFromString(str: String, base: Int): Int {
+    var num = 0
+    for (i in str.indices) {
+        if (str[i] in 'a'..'z')
+        num += (qwerty.indexOf(str[i])+10)*base
+    }
+}
 
 /**
  * Сложная
