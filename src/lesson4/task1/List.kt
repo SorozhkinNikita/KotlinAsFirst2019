@@ -300,36 +300,64 @@ fun decimalFromString(str: String, base: Int): Int {
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()
-//{
-//    var num = n
-//    val m = num / 1000
-//    num %= 1000
-//    var str = ""
-//    for (i in 0 until m) str += 'M'
-//    val d = num / 500
-//    num %= 500
-//    if (d > 3) str += "CM"
-//    else for (i in 0 until d) str += 'D'
-//    val c = num / 100
-//    num %= 100
-//    if (c > 3) str += "CD"
-//    else for (i in 0 until c) str += 'С'
-//    val l = num / 50
-//    num %= 50
-//    if (l > 3) str += "XC"
-//    else for (i in 0 until l) str += 'L'
-//    val x = num / 10
-//    num %= 10
-//    if (x > 3) str += "XL"
-//    else for (i in 0 until x) str += 'X'
-//    val v = num / 5
-//    num %= 5
-//    if (v > 3) str += "IX"
-//    else for (i in 0 until v) str += 'V'
-//    for (i in 0 until num) str += 'I'
-//    return str
-//}
+fun roman(n: Int): String {
+    var num = n
+    val m = num / 1000
+    num %= 1000
+    var str = ""
+    str += m(m)
+    val d = num / 500
+    num %= 500
+    str += d(d)
+    val c = num / 100
+    num %= 100
+    str += c(c)
+    val l = num / 50
+    num %= 50
+    str += l(l)
+    val x = num / 10
+    num %= 10
+    str += x(x)
+    str += basic(num)
+    return str
+}
+
+
+fun m(x: Int): String {
+    var a = ""
+    for (i in 0 until x) a += "M"
+    return a
+}
+
+fun c(x: Int): String {
+    return if (x == 4) "CD"
+    else if (x != 0 && x < 4) {
+        var a = ""
+        for (i in 0 until x) a += "C"
+        a
+    } else
+        ""
+}
+
+fun x(k: Int): String {
+    return if (k == 4) "XL"
+    else if (k != 0 && k < 4) {
+        var a = ""
+        for (i in 0 until k) a += "X"
+        a
+    } else
+        ""
+}
+
+fun d(x: Int): String = if (x == 0) "" else if (x == 4) "CM" else "D"
+
+fun l(x: Int): String = if (x == 0) "" else if (x == 4) "XC" else "L"
+
+fun basic(x: Int): String {
+    if (x == 0) return ""
+    val list = listOf("I", "II", "III", "IV", "v", "VI", "VII", "VII", "XI")
+    return list[x - 1]
+}
 
 /**
  * Очень сложная
