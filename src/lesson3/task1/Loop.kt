@@ -198,7 +198,7 @@ fun collatzSteps(x: Int): Int {
  * Использовать kotlin.math.sin и другие стандартные реализации функции синуса в этой задаче запрещается.
  */
 fun sin(x: Double, eps: Double): Double {
-    val xNew = abs(x) % (2 * PI)
+    val xNew = x % (2 * PI)
     var i = 0
     var sum = 0.0
     var member = xNew.pow(2 * i + 1) / factorial(2 * i + 1)
@@ -220,7 +220,7 @@ fun sin(x: Double, eps: Double): Double {
  * Использовать kotlin.math.cos и другие стандартные реализации функции косинуса в этой задаче запрещается.
  */
 fun cos(x: Double, eps: Double): Double {
-    val xNew = abs(x) % (2 * PI)
+    val xNew = x % (2 * PI)
     var i = 0
     var sum = 0.0
     var member = xNew.pow(2 * i) / factorial(2 * i)
