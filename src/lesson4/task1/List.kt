@@ -189,7 +189,7 @@ fun accumulate(list: MutableList<Int>): MutableList<Int> = TODO()
  * Множители в списке должны располагаться по возрастанию.
  */
 fun factorize(n: Int): List<Int> {
-    var list = mutableListOf<Int>()
+    val list = mutableListOf<Int>()
     var number = n
     var k = 2
     if (isprime(n)) return listOf(n)
@@ -232,7 +232,7 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*
  */
 fun convert(n: Int, base: Int): List<Int> {
     var number = n
-    var list = mutableListOf<Int>()
+    val list = mutableListOf<Int>()
     while (number > 0) {
         list.add(0, number % base)
         number /= base
@@ -251,10 +251,10 @@ fun convert(n: Int, base: Int): List<Int> {
  * Использовать функции стандартной библиотеки, напрямую и полностью решающие данную задачу
  * (например, n.toString(base) и подобные), запрещается.
  */
-val qwerty = "abcdefghijklmnopqrstuvwxyz"
+const val alphabet = "abcdefghijklmnopqrstuvwxyz"
 
 fun convertToString(n: Int, base: Int): String =
-    convert(n, base).map { if (it > 9) qwerty[it - 10] else it }.joinToString("")
+    convert(n, base).map { if (it > 9) alphabet[it - 10] else it }.joinToString("")
 
 /**
  * Средняя
@@ -283,7 +283,7 @@ fun decimalFromString(str: String, base: Int): Int {
     var num = 0
     for (i in str.indices) {
         num += if (str[i] in 'a'..'z') {
-            (qwerty.indexOf(str[i]) + 10) * base.toDouble().pow(str.length - i - 1).toInt()
+            (alphabet.indexOf(str[i]) + 10) * base.toDouble().pow(str.length - i - 1).toInt()
         } else {
             ((str[i].toInt() - 48) * base.toDouble().pow(str.length - i - 1)).toInt()
         }
@@ -299,35 +299,36 @@ fun decimalFromString(str: String, base: Int): Int {
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String {
-    var num = n
-    val m = num / 1000
-    num %= 1000
-    var str = ""
-    for (i in 0 until m) str += 'M'
-    val d = num / 500
-    num %= 500
-    if (d > 3) str += "CM"
-    else for (i in 0 until d) str += 'D'
-    val c = num / 100
-    num %= 100
-    if (c > 3) str += "CD"
-    else for (i in 0 until c) str += 'С'
-    val l = num / 50
-    num %= 50
-    if (l > 3) str += "XC"
-    else for (i in 0 until l) str += 'L'
-    val x = num / 10
-    num %= 10
-    if (x > 3) str += "XL"
-    else for (i in 0 until x) str += 'X'
-    val v = num / 5
-    num %= 5
-    if (v > 3) str += "IX"
-    else for (i in 0 until v) str += 'V'
-    for (i in 0 until num) str += 'I'
-    return str
-}
+fun roman(n: Int): String = TODO()
+//{
+//    var num = n
+//    val m = num / 1000
+//    num %= 1000
+//    var str = ""
+//    for (i in 0 until m) str += 'M'
+//    val d = num / 500
+//    num %= 500
+//    if (d > 3) str += "CM"
+//    else for (i in 0 until d) str += 'D'
+//    val c = num / 100
+//    num %= 100
+//    if (c > 3) str += "CD"
+//    else for (i in 0 until c) str += 'С'
+//    val l = num / 50
+//    num %= 50
+//    if (l > 3) str += "XC"
+//    else for (i in 0 until l) str += 'L'
+//    val x = num / 10
+//    num %= 10
+//    if (x > 3) str += "XL"
+//    else for (i in 0 until x) str += 'X'
+//    val v = num / 5
+//    num %= 5
+//    if (v > 3) str += "IX"
+//    else for (i in 0 until v) str += 'V'
+//    for (i in 0 until num) str += 'I'
+//    return str
+//}
 
 /**
  * Очень сложная

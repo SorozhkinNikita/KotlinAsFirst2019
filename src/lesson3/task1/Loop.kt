@@ -198,9 +198,7 @@ fun collatzSteps(x: Int): Int {
  * Использовать kotlin.math.sin и другие стандартные реализации функции синуса в этой задаче запрещается.
  */
 fun sin(x: Double, eps: Double): Double {
-    var xNew = x
-    while (xNew > 2 * PI) xNew -= 2 * PI
-    while (xNew < 0) xNew += 2 * PI
+    val xNew = abs(x) % (2 * PI)
     var i = 0
     var sum = 0.0
     var member = xNew.pow(2 * i + 1) / factorial(2 * i + 1)
@@ -222,9 +220,7 @@ fun sin(x: Double, eps: Double): Double {
  * Использовать kotlin.math.cos и другие стандартные реализации функции косинуса в этой задаче запрещается.
  */
 fun cos(x: Double, eps: Double): Double {
-    var xNew = x
-    while (xNew > 2 * PI) xNew -= 2 * PI
-    while (xNew < 0) xNew += 2 * PI
+    val xNew = abs(x) % (2 * PI)
     var i = 0
     var sum = 0.0
     var member = xNew.pow(2 * i) / factorial(2 * i)
@@ -263,9 +259,7 @@ fun revert(n: Int): Int {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun isPalindrome(n: Int): Boolean =
-    n / 10.0.pow(digitNumber(n) - digitNumber(n) / 2).toInt() == revert(n % 10.0.pow(digitNumber(n) / 2).toInt())
-//только стоит ли ради записи в 1 строку 3 раза выполнять функцию кол-во цифр в числе?
+fun isPalindrome(n: Int): Boolean = n == revert(n)
 
 /**
  * Средняя
