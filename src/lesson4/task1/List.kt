@@ -3,8 +3,6 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
-import lesson1.task1.numberRevert
-import lesson1.task1.sqr
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -301,62 +299,18 @@ fun decimalFromString(str: String, base: Int): Int {
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
 fun roman(n: Int): String {
+    val number = listOf(1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1)
+    val romanNumber = listOf("M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I")
     var num = n
-    val m = num / 1000
-    num %= 1000
+    var i = 0
     var str = ""
-    str += m(m)
-    val d = num / 500
-    num %= 500
-    str += d(d)
-    val c = num / 100
-    num %= 100
-    str += c(c)
-    val l = num / 50
-    num %= 50
-    str += l(l)
-    val x = num / 10
-    num %= 10
-    str += x(x)
-    str += basic(num)
+    while (num > 0) {
+        if (num >= number[i]) {
+            str += romanNumber[i]
+            num -= number[i]
+        } else i++
+    }
     return str
-}
-
-
-fun m(x: Int): String {
-    var a = ""
-    for (i in 0 until x) a += "M"
-    return a
-}
-
-fun c(x: Int): String {
-    return if (x == 4) "CD"
-    else if (x != 0 && x < 4) {
-        var a = ""
-        for (i in 0 until x) a += "C"
-        a
-    } else
-        ""
-}
-
-fun x(k: Int): String {
-    return if (k == 4) "XL"
-    else if (k != 0 && k < 4) {
-        var a = ""
-        for (i in 0 until k) a += "X"
-        a
-    } else
-        ""
-}
-
-fun d(x: Int): String = if (x == 0) "" else if (x == 4) "CM" else "D"
-
-fun l(x: Int): String = if (x == 0) "" else if (x == 4) "XC" else "L"
-
-fun basic(x: Int): String {
-    if (x == 0) return ""
-    val list = listOf("I", "II", "III", "IV", "v", "VI", "VII", "VII", "XI")
-    return list[x - 1]
 }
 
 /**
