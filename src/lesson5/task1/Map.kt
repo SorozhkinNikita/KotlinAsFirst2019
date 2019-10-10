@@ -91,7 +91,14 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
  *   buildGrades(mapOf("Марат" to 3, "Семён" to 5, "Михаил" to 5))
  *     -> mapOf(5 to listOf("Семён", "Михаил"), 3 to listOf("Марат"))
  */
-fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> = TODO()
+fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
+    var res = mutableMapOf<Int, MutableList<String>>()
+    for ((student, grade) in grades) {
+        res.getOrPut(grade) { mutableListOf() }.add(student)
+        //if (grade in res) res[grade]?.add(student) else res[grade] = mutableListOf(student)
+    }
+    return res
+}
 
 /**
  * Простая
@@ -103,7 +110,12 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> = TODO()
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "z", "b" to "sweet")) -> true
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "zee", "b" to "sweet")) -> false
  */
-fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean = TODO()
+fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
+    for ((key, result) in a) {
+        if (b[key] != result) return false
+    }
+    return true
+}
 
 /**
  * Простая
@@ -119,7 +131,13 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean = TODO()
  *   subtractOf(a = mutableMapOf("a" to "z"), mapOf("a" to "z"))
  *     -> a changes to mutableMapOf() aka becomes empty
  */
-fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): Unit = TODO()
+fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): Unit {
+    var strToDel = mutableListOf<String>()
+    for ((key, value) in a) {
+        if (b[key] == value) strToDel.add(key)
+    }
+    a -= strToDel
+}
 
 /**
  * Простая
@@ -128,7 +146,7 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): Unit = TO
  * В выходном списке не должно быть повторяюихся элементов,
  * т. е. whoAreInBoth(listOf("Марат", "Семён, "Марат"), listOf("Марат", "Марат")) == listOf("Марат")
  */
-fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = TODO()
+fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = a.toSet().intersect(b.toSet()).toList()
 
 /**
  * Средняя
@@ -147,7 +165,15 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = TODO()
  *     mapOf("Emergency" to "911", "Police" to "02")
  *   ) -> mapOf("Emergency" to "112, 911", "Police" to "02")
  */
-fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> = TODO()
+fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> {
+    var res = mutableMapOf<String, String>()
+    res.putAll(mapA)
+    for ((key, value) in mapB) {
+        res.merge(key, value) { v1, v2 -> if (v1 == v2) v1 else "$v1, $v2" }
+        //if (key in res && res[key] != value) res[key] += ", $value" else res[key] = value
+    }
+    return res
+}
 
 /**
  * Средняя
@@ -159,7 +185,13 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
  *   averageStockPrice(listOf("MSFT" to 100.0, "MSFT" to 200.0, "NFLX" to 40.0))
  *     -> mapOf("MSFT" to 150.0, "NFLX" to 40.0)
  */
-fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> = TODO()
+fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> {
+    var res = mutableMapOf<String, MutableList<Double>>()
+    for ((first, second) in stockPrices) {
+        res.getOrPut(first) { mutableListOf() }.add(second)
+    }
+    return res.mapValues { it.value.sum() / it.value.size }
+}
 
 /**
  * Средняя
@@ -176,7 +208,14 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
  *     "печенье"
  *   ) -> "Мария"
  */
-fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? = TODO()
+fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? {
+    var res: Pair<String?, Double> = (null to Double.POSITIVE_INFINITY)
+    for ((name, pair) in stuff) {
+        val (type, price) = pair
+        if (type == kind && price < res.second) res = (name to price)
+    }
+    return res.first
+}
 
 /**
  * Средняя
