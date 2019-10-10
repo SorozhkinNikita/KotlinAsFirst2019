@@ -226,7 +226,12 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  * Например:
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
-fun canBuildFrom(chars: List<Char>, word: String): Boolean = TODO()
+fun canBuildFrom(chars: List<Char>, word: String): Boolean {
+    var letters = setOf<Char>()
+    letters += chars
+    for (i in word.indices) if (word[i] !in letters) return false
+    return true
+}
 
 /**
  * Средняя
@@ -240,7 +245,12 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean = TODO()
  * Например:
  *   extractRepeats(listOf("a", "b", "a")) -> mapOf("a" to 2)
  */
-fun extractRepeats(list: List<String>): Map<String, Int> = TODO()
+fun extractRepeats(list: List<String>): Map<String, Int> {
+    var el = setOf<String>()
+    var res = mutableMapOf<String, Int>()
+    //for (element in list) if (element in res) res[element]++ else res[element] = 0
+    return res.filter { it.value > 1 }
+}
 
 /**
  * Средняя
