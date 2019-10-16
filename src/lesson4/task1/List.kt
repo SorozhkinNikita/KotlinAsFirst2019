@@ -371,10 +371,15 @@ fun n100(x: Int): String {
 }
 
 fun n1000(x: Int): String {
-    return if (x > 999) when (x / 1000 % 10) {
-        0 -> "тысяч "
-        1 -> "тысяча "
-        in 2..4 -> "тысячи "
-        else -> "тысяч "
+    val xNew: Int
+    return if (x > 999) {
+        xNew = if (x / 1000 % 100 > 20) x / 1000 % 10 else x / 1000 % 100
+        when (xNew) {
+            0 -> "тысяч "
+            1 -> "тысяча "
+            in 2..4 -> "тысячи "
+            else -> "тысяч "
+        }
+
     } else ""
 }

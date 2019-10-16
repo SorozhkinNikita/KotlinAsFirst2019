@@ -226,7 +226,8 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  * Например:
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
-fun canBuildFrom(chars: List<Char>, word: String): Boolean = word.indices.all { word[it] in chars }
+fun canBuildFrom(chars: List<Char>, word: String): Boolean =
+    word.indices.all { word[it].toLowerCase() in chars || word[it].toUpperCase() in chars }
 
 
 /**
@@ -257,6 +258,7 @@ fun extractRepeats(list: List<String>): Map<String, Int> {
  *   hasAnagrams(listOf("тор", "свет", "рот")) -> true
  */
 fun hasAnagrams(words: List<String>): Boolean {
+    //не знаю как обработать слова нулевой длины
     var res = false
     for (i in words.indices) {
         for (j in (i + 1) until words.size) {
