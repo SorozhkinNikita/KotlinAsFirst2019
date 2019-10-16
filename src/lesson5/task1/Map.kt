@@ -92,7 +92,7 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
  *     -> mapOf(5 to listOf("Семён", "Михаил"), 3 to listOf("Марат"))
  */
 fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
-    var res = mutableMapOf<Int, MutableList<String>>()
+    val res = mutableMapOf<Int, MutableList<String>>()
     for ((student, grade) in grades) {
         res.getOrPut(grade) { mutableListOf() }.add(student)
         //if (grade in res) res[grade]?.add(student) else res[grade] = mutableListOf(student)
@@ -132,7 +132,7 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
  *     -> a changes to mutableMapOf() aka becomes empty
  */
 fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): Unit {
-    var strToDel = mutableListOf<String>()
+    val strToDel = mutableListOf<String>()
     for ((key, value) in a) {
         if (b[key] == value) strToDel.add(key)
     }
@@ -166,7 +166,7 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = a.toSet().int
  *   ) -> mapOf("Emergency" to "112, 911", "Police" to "02")
  */
 fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> {
-    var res = mutableMapOf<String, String>()
+    val res = mutableMapOf<String, String>()
     res.putAll(mapA)
     for ((key, value) in mapB) {
         res.merge(key, value) { v1, v2 -> if (v1 == v2) v1 else "$v1, $v2" }
@@ -186,7 +186,7 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
  *     -> mapOf("MSFT" to 150.0, "NFLX" to 40.0)
  */
 fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> {
-    var res = mutableMapOf<String, MutableList<Double>>()
+    val res = mutableMapOf<String, MutableList<Double>>()
     for ((first, second) in stockPrices) {
         res.getOrPut(first) { mutableListOf() }.add(second)
     }
@@ -226,12 +226,8 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  * Например:
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
-fun canBuildFrom(chars: List<Char>, word: String): Boolean {
-    var letters = setOf<Char>()
-    letters += chars
-    for (i in word.indices) if (word[i] !in letters) return false
-    return true
-}
+fun canBuildFrom(chars: List<Char>, word: String): Boolean = word.indices.all { word[it] in chars }
+
 
 /**
  * Средняя
@@ -246,9 +242,8 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean {
  *   extractRepeats(listOf("a", "b", "a")) -> mapOf("a" to 2)
  */
 fun extractRepeats(list: List<String>): Map<String, Int> {
-    var el = setOf<String>()
-    var res = mutableMapOf<String, Int>()
-    //for (element in list) if (element in res) res[element]++ else res[element] = 0
+    val res = mutableMapOf<String, Int>()
+    for (element in list) res[element] = (res[element] ?: 0) + 1
     return res.filter { it.value > 1 }
 }
 
@@ -261,7 +256,22 @@ fun extractRepeats(list: List<String>): Map<String, Int> {
  * Например:
  *   hasAnagrams(listOf("тор", "свет", "рот")) -> true
  */
-fun hasAnagrams(words: List<String>): Boolean = TODO()
+fun hasAnagrams(words: List<String>): Boolean {
+    var res = false
+    for (i in words.indices) {
+        for (j in (i + 1) until words.size) {
+            if (!res) {
+                for (k in words[i].indices) {
+                    if (words[i][k] !in words[j]) {
+                        res = false
+                        break
+                    } else res = true
+                }
+            } else return true
+        }
+    }
+    return false
+}
 
 /**
  * Сложная

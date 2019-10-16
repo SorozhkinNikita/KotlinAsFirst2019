@@ -3,6 +3,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import lesson3.task1.isPrime
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -190,7 +191,7 @@ fun factorize(n: Int): List<Int> {
     val list = mutableListOf<Int>()
     var number = n
     var k = 2
-    if (isprime(n)) return listOf(n)
+    if (isPrime(n)) return listOf(n)
     while (number > 1) {
         if (number % k.toDouble() == 0.0) {
             list.add(k)
@@ -202,15 +203,6 @@ fun factorize(n: Int): List<Int> {
 
 }
 
-fun isprime(n: Int): Boolean {
-    if (n == 1)
-        return false
-    for (d in 2..sqrt(n.toDouble()).toInt()) {
-        if (n % d == 0)
-            return false;
-    }
-    return true;
-}
 
 /**
  * Сложная
@@ -233,10 +225,10 @@ fun convert(n: Int, base: Int): List<Int> {
     val list = mutableListOf<Int>()
     if (n == 0) return listOf(0)
     while (number > 0) {
-        list.add(0, number % base)
+        list.add(number % base)
         number /= base
     }
-    return list
+    return list.toList().reversed()
 }
 
 /**
@@ -250,10 +242,12 @@ fun convert(n: Int, base: Int): List<Int> {
  * Использовать функции стандартной библиотеки, напрямую и полностью решающие данную задачу
  * (например, n.toString(base) и подобные), запрещается.
  */
-const val alphabet = "abcdefghijklmnopqrstuvwxyz"
+//val alphabet.
+
+//"abcdefghijklmnopqrstuvwxyz"
 
 fun convertToString(n: Int, base: Int): String =
-    convert(n, base).map { if (it > 9) alphabet[it - 10] else if (n == 0) 0 else it }.joinToString("")
+    convert(n, base).map { if (it > 9) (it + 'W'.toInt()).toChar() else if (n == 0) 0 else it }.joinToString("")
 
 /**
  * Средняя
@@ -282,9 +276,9 @@ fun decimalFromString(str: String, base: Int): Int {
     var num = 0
     for (i in str.indices) {
         num += if (str[i] in 'a'..'z') {
-            (alphabet.indexOf(str[i]) + 10) * base.toDouble().pow(str.length - i - 1).toInt()
+            (str[i].toInt() - 'W'.toInt()) * base.toDouble().pow(str.length - i - 1).toInt()
         } else {
-            ((str[i].toInt() - 48) * base.toDouble().pow(str.length - i - 1)).toInt()
+            ((str[i].toInt() - '0'.toInt()) * base.toDouble().pow(str.length - i - 1)).toInt()
         }
     }
     return num

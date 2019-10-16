@@ -104,14 +104,16 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int {
+fun gcm(m: Int, n: Int): Int {
     var m1 = m
     var n1 = n
     while (m1 != n1) {
         if (m1 > n1) m1 -= n1 else n1 -= m1
     }
-    return m * n / m1
+    return m1
 }
+
+fun lcm(m: Int, n: Int): Int = m * n / gcm(m, n)
 
 /**
  * Простая
@@ -134,7 +136,7 @@ fun maxDivisor(n: Int): Int {
     if (isPrime(n)) return 1
     for (i in n - 1 downTo sqrt(n.toDouble()).toInt())
         if (n % i.toDouble() == 0.0) return i
-    return error("something went wrong") //Не знаю как обойтись без этого костыля
+    return 1
 }
 
 /**
@@ -144,14 +146,15 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean {
-    if (isPrime(m) && isPrime(n) || isPrime(max(m, n))) return true
-    if (isPrime(min(m, n)))
-        return max(m, n) % min(m, n).toDouble() != 0.0
-    for (i in 2..min(m, n))
-        if (m % i.toDouble() == 0.0 && n % i.toDouble() == 0.0) return false
-    return true
-}
+fun isCoPrime(m: Int, n: Int): Boolean = gcm(m, n) == 1
+//{
+//    if (isPrime(m) && isPrime(n) || isPrime(max(m, n))) return true
+//    if (isPrime(min(m, n)))
+//        return max(m, n) % min(m, n).toDouble() != 0.0
+//    for (i in 2..min(m, n))
+//        if (m % i.toDouble() == 0.0 && n % i.toDouble() == 0.0) return false
+//    return true
+//}
 
 /**
  * Простая
@@ -197,18 +200,7 @@ fun collatzSteps(x: Int): Int {
  * Подумайте, как добиться более быстрой сходимости ряда при больших значениях x.
  * Использовать kotlin.math.sin и другие стандартные реализации функции синуса в этой задаче запрещается.
  */
-fun sin(x: Double, eps: Double): Double {
-    val xNew = x % (2 * PI)
-    var i = 0
-    var sum = 0.0
-    var member = xNew.pow(2 * i + 1) / factorial(2 * i + 1)
-    while (member >= eps) {
-        sum += (-1.0).pow(i) * member
-        i++
-        member = xNew.pow(2 * i + 1) / factorial(2 * i + 1)
-    }
-    return sum
-}
+fun sin(x: Double, eps: Double): Double = sinCos(x, eps) { 2 * it + 1 }
 
 /**
  * Средняя
@@ -219,15 +211,18 @@ fun sin(x: Double, eps: Double): Double {
  * Подумайте, как добиться более быстрой сходимости ряда при больших значениях x.
  * Использовать kotlin.math.cos и другие стандартные реализации функции косинуса в этой задаче запрещается.
  */
-fun cos(x: Double, eps: Double): Double {
+fun cos(x: Double, eps: Double): Double = sinCos(x, eps) { 2 * it }
+
+
+fun sinCos(x: Double, eps: Double, func: (a: Int) -> Int): Double {
     val xNew = x % (2 * PI)
     var i = 0
     var sum = 0.0
-    var member = xNew.pow(2 * i) / factorial(2 * i)
+    var member = xNew.pow(func(i)) / factorial(func(i))
     while (member >= eps) {
         sum += (-1.0).pow(i) * member
         i++
-        member = xNew.pow(2 * i) / factorial(2 * i)
+        member = xNew.pow(func(i)) / factorial(func(i))
     }
     return sum
 }
@@ -285,17 +280,7 @@ fun hasDifferentDigits(n: Int): Boolean {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int {
-    var sum = 0
-    var i = 1
-    while (sum < n) {
-        sum += digitNumber(i * i)
-        i++
-    }
-    val delta = sum - n
-    i--
-    return i * i / 10.0.pow(delta).toInt() % 10
-}
+fun squareSequenceDigit(n: Int): Int = sequenceDigit(n) { it * it }
 
 /**
  * Сложная
@@ -306,14 +291,16 @@ fun squareSequenceDigit(n: Int): Int {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun fibSequenceDigit(n: Int): Int {
+fun fibSequenceDigit(n: Int): Int = sequenceDigit(n) { fib(it) }
+
+fun sequenceDigit(n: Int, func: (a: Int) -> Int): Int {
     var sum = 0
     var i = 1
     while (sum < n) {
-        sum += digitNumber(fib(i))
+        sum += digitNumber(func(i))
         i++
     }
     val delta = sum - n
     i--
-    return fib(i) / 10.0.pow(delta).toInt() % 10
+    return func(i) / 10.0.pow(delta).toInt() % 10
 }
