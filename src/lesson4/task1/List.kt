@@ -4,6 +4,7 @@ package lesson4.task1
 
 import lesson1.task1.discriminant
 import lesson3.task1.isPrime
+import java.lang.StringBuilder
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -233,7 +234,7 @@ fun convert(n: Int, base: Int): List<Int> {
         list.add(number % base)
         number /= base
     }
-    return list.toList().reversed()
+    return list.reversed()
 }
 
 /**
@@ -247,12 +248,9 @@ fun convert(n: Int, base: Int): List<Int> {
  * Использовать функции стандартной библиотеки, напрямую и полностью решающие данную задачу
  * (например, n.toString(base) и подобные), запрещается.
  */
-//val alphabet.
-
-//"abcdefghijklmnopqrstuvwxyz"
 
 fun convertToString(n: Int, base: Int): String =
-    convert(n, base).map { if (it > 9) (it + 'W'.toInt()).toChar() else if (n == 0) 0 else it }.joinToString("")
+    convert(n, base).map { if (it > 9) 'a' + it - 10 else '0' + it }.joinToString("")
 
 /**
  * Средняя
@@ -280,14 +278,15 @@ fun decimal(digits: List<Int>, base: Int): Int =
 fun decimalFromString(str: String, base: Int): Int {
     var num = 0
     for (i in str.indices) {
-        num += if (str[i] in 'a'..'z') {
-            (str[i].toInt() - 'W'.toInt()) * base.toDouble().pow(str.length - i - 1).toInt()
-        } else {
-            ((str[i].toInt() - '0'.toInt()) * base.toDouble().pow(str.length - i - 1)).toInt()
-        }
+        num += if (str[i] in 'a'..'z') element(str[i], base, str.length, i, 'a' - 10)
+        else element(str[i], base, str.length, i, '0')
     }
     return num
 }
+
+fun element(x: Char, base: Int, length: Int, i: Int, delta: Char): Int =
+    ((x - delta) * base.toDouble().pow(length - i - 1)).toInt()
+
 
 /**
  * Сложная
@@ -302,14 +301,14 @@ fun roman(n: Int): String {
     val romanNumber = listOf("M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I")
     var num = n
     var i = 0
-    var str = ""
+    val str = StringBuilder()
     while (num > 0) {
         if (num >= number[i]) {
-            str += romanNumber[i]
+            str.append(romanNumber[i])
             num -= number[i]
         } else i++
     }
-    return str
+    return str.toString()
 }
 
 /**
@@ -320,54 +319,68 @@ fun roman(n: Int): String {
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
 fun russian(n: Int): String =
-    (n100(n / 1000) + n10(n / 1000 % 100) + n1(n / 1000 % 100, n) + n1000(n) + n100(n) + n10(n) + n1(n, 0)).trim()
+    listOf(
+        n100(n / 1000),
+        n10(n / 1000 % 100),
+        n1(n / 1000 % 100, true),
+        n1000(n),
+        n100(n),
+        n10(n),
+        n1(n, false)
+    ).filter { it.isNotEmpty() }.joinToString(" ")
 
-fun n1(x: Int, m: Int): String {
-    val array = arrayOf(
-        "", "один ", "два ", "три ", "четыре ", "пять ", "шесть ", "семь ", "восемь ", "девять ", "десять ",
-        "одиннадцать ", "двенадцать ", "тринадцать ", "четырнадцать ", "пятнадцать ", "шестнадцать ", "семнадцать ",
-        "восемнадцать ", "девятнадцать "
-    )
-    if (m > 1000) {
-        array[1] = "одна "
-        array[2] = "две "
-    }
+val array11 = arrayOf(
+    "", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять", "десять",
+    "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать",
+    "восемнадцать", "девятнадцать"
+)
+
+val array12 = arrayOf(
+    "", "одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять", "десять",
+    "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать",
+    "восемнадцать", "девятнадцать"
+)
+
+fun n1(x: Int, thousands: Boolean): String {
     val p100 = x % 100
-    return if (p100 < 20) array[p100] else array[p100 % 10]
+    return if (thousands)
+        if (p100 < 20) array12[p100] else array12[p100 % 10]
+    else if (p100 < 20) array11[p100] else array11[p100 % 10]
 }
+
+val list10 =
+    listOf(
+        "двадцать",
+        "тридцать",
+        "сорок",
+        "пятьдесят",
+        "шестьдесят",
+        "семьдесят",
+        "восемьдесят",
+        "девяносто"
+    )
 
 fun n10(x: Int): String {
-    val list =
-        listOf(
-            "двадцать ",
-            "тридцать ",
-            "сорок ",
-            "пятьдесят ",
-            "шестьдесят ",
-            "семьдесят ",
-            "восемьдесят ",
-            "девяносто "
-        )
     val p100 = x % 100
-    return if (p100 >= 20) list[p100 / 10 - 2] else ""
+    return if (p100 >= 20) list10[p100 / 10 - 2] else ""
 }
 
+val list100 =
+    listOf(
+        "сто",
+        "двести",
+        "триста",
+        "четыреста",
+        "пятьсот",
+        "шестьсот",
+        "семьсот",
+        "восемьсот",
+        "девятьсот"
+    )
 
 fun n100(x: Int): String {
-    val list =
-        listOf(
-            "сто ",
-            "двести ",
-            "триста ",
-            "четыреста ",
-            "пятьсот ",
-            "шестьсот ",
-            "семьсот ",
-            "восемьсот ",
-            "девятьсот "
-        )
     val p = x % 1000 / 100
-    return if (p > 0) list[p - 1] else ""
+    return if (p > 0) list100[p - 1] else ""
 }
 
 fun n1000(x: Int): String {
@@ -375,11 +388,9 @@ fun n1000(x: Int): String {
     return if (x > 999) {
         xNew = if (x / 1000 % 100 > 20) x / 1000 % 10 else x / 1000 % 100
         when (xNew) {
-            0 -> "тысяч "
-            1 -> "тысяча "
-            in 2..4 -> "тысячи "
-            else -> "тысяч "
+            1 -> "тысяча"
+            in 2..4 -> "тысячи"
+            else -> "тысяч"
         }
-
     } else ""
 }
