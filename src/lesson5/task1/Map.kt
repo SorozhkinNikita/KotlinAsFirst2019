@@ -257,21 +257,16 @@ fun extractRepeats(list: List<String>): Map<String, Int> {
  *   hasAnagrams(listOf("тор", "свет", "рот")) -> true
  */
 fun hasAnagrams(words: List<String>): Boolean {
-    //не знаю как обработать слова нулевой длины
-    var res = false
+    val letters = mutableMapOf<Char, Int>()
+    val word = mutableSetOf<Map<Char, Int>>()
     for (i in words.indices) {
-        for (j in (i + 1) until words.size) {
-            if (!res) {
-                for (k in words[i].indices) {
-                    if (words[i][k] !in words[j]) {
-                        res = false
-                        break
-                    } else res = true
-                }
-            } else return true
+        for (j in words[i].indices) {
+            if (words[i][j] in letters) letters[words[i][j]] ?: +1 else letters += mapOf(words[i][j] to 1)
         }
+        word += letters
+        letters.clear()
     }
-    return false
+    return (word.size != words.size)
 }
 
 /**
