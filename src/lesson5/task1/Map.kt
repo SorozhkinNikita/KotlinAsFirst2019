@@ -294,20 +294,27 @@ fun hasAnagrams(words: List<String>): Boolean {
  *        )
  */
 fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> {
-    var res = mutableMapOf<String, Set<String>>()
-    var preres = setOf<String>()
-    var check = setOf<String>()
-    val checked = mutableMapOf<String, Boolean>()
-    for ((keys, setFriends) in friends) checked[keys] = false
-    for ((name, setFriends) in friends) {
-        check = setFriends
-        while (check.isNotEmpty()) {
-            preres += friends[check.first()] ?: error("") //замени чеки, упрости код
-            check -= check.first()
-            check += preres
+    val res = mutableMapOf<String, Set<String>>()
+    for ((person, fr) in friends) {
+        val people = fr.toMutableSet()
+        val visited = mutableSetOf(person)
+        while (people.isNotEmpty()) {
+            val needToPut = mutableSetOf<String>()
+            for (i in people) {
+                if (i in visited) continue
+                visited.add(i)
+                if (i in friends) needToPut.addAll(friends[i]!!)
+                else res[i] = setOf()
+            }
+            people.addAll(needToPut)
+            people.removeAll(visited)
         }
+        visited.remove(person)
+        res[person] = visited.toSet()
     }
+    return res
 }
+
 
 /**
  * Сложная
