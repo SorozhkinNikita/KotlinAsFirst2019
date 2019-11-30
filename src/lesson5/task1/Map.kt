@@ -379,7 +379,7 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
             else {
                 val a = m[number - 1][weight].first
                 val b = m[number - 1][weight - w].first + p
-                if (a > b) m[number][weight] = m[number - 1][weight]
+                if (a >= b) m[number][weight] = m[number - 1][weight]
                 else {
                     m[number][weight] = (b to m[number - 1][weight - w].second)
                     m[number][weight].second.add(list[number - 1].first)
