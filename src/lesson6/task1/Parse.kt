@@ -234,7 +234,7 @@ fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
             }
             ']' -> {
                 if (res[position] != 0) index = list.last()
-                else list.removeAt(list.size - 1)
+                else if (list.size != 0) list.removeAt(list.size - 1)
             }
         }
         count++
