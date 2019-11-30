@@ -208,4 +208,69 @@ fun fromRoman(roman: String): Int = TODO()
  * IllegalArgumentException должен бросаться даже если ошибочная команда не была достигнута в ходе выполнения.
  *
  */
-fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> = TODO()
+fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
+    require(checkPairs(commands))
+    require(checkAlphabet(commands))
+    val list = mutableListOf<Int>()
+    var count = 0
+    var index = 0
+    val res = MutableList(cells) { 0 }
+    var position = cells / 2
+    while ((count < limit) && (index < commands.length)) {
+        when (commands[index]) {
+            '>' -> {
+                check(position != cells - 1)
+                position++
+            }
+            '<' -> {
+                check(position != 0)
+                position--
+            }
+            '+' -> res[position]++
+            '-' -> res[position]--
+            '[' -> {
+                if (res[position] == 0) index = secIndex(index, commands)
+                else list.add(index)
+            }
+            ']' -> {
+                if (res[position] != 0) index = list.last()
+                else list.removeAt(list.size - 1)
+            }
+        }
+        count++
+        index++
+    }
+    return res
+}
+
+fun checkPairs(commands: String): Boolean {
+    var score = 0
+    for (i in commands.indices) {
+        when (commands[i]) {
+            '[' -> score++
+            ']' -> score--
+        }
+    }
+    return score == 0
+}
+
+fun checkAlphabet(commands: String): Boolean {
+    val alphabet = setOf('>', '<', '+', '-', '[', ']', ' ')
+    for (i in commands.indices) {
+        if (commands[i] !in alphabet) return false
+    }
+    return true
+}
+
+fun secIndex(index: Int, commands: String): Int {
+    var delta = 0
+    var res = index + 1
+    do {
+        when (commands[res]) {
+            '[' -> delta++
+            ']' -> delta--
+        }
+        res++
+    } while (delta == 0)
+    return res
+}
