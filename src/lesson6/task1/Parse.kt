@@ -229,7 +229,7 @@ fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
             '+' -> res[position]++
             '-' -> res[position]--
             '[' -> {
-                if (res[position] == 0) index = secIndex(index, commands)
+                if (res[position] == 0) index = secIndex(index, commands) - 1
                 else list.add(index)
             }
             ']' -> {
@@ -264,13 +264,13 @@ fun checkAlphabet(commands: String): Boolean {
 
 fun secIndex(index: Int, commands: String): Int {
     var delta = 0
-    var res = index + 1
+    var res = index
     do {
         when (commands[res]) {
             '[' -> delta++
             ']' -> delta--
         }
         res++
-    } while (delta == 0)
+    } while (delta != 0)
     return res
 }
