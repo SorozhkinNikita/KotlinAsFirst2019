@@ -166,8 +166,7 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = a.toSet().int
  *   ) -> mapOf("Emergency" to "112, 911", "Police" to "02")
  */
 fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> {
-    val res = mutableMapOf<String, String>()
-    res.putAll(mapA)
+    val res = mapA.toMutableMap()
     for ((key, value) in mapB) {
         res.merge(key, value) { v1, v2 -> if (v1 == v2) v1 else "$v1, $v2" }
         //if (key in res && res[key] != value) res[key] += ", $value" else res[key] = value
@@ -226,8 +225,7 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  * Например:
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
-fun canBuildFrom(chars: List<Char>, word: String): Boolean =
-    word.indices.all { word[it].toLowerCase() in chars || word[it].toUpperCase() in chars }
+fun canBuildFrom(chars: List<Char>, word: String): Boolean = chars.toSet().intersect(word.toSet()) == word.toSet()
 
 
 /**
@@ -260,10 +258,8 @@ fun extractRepeats(list: List<String>): Map<String, Int> {
 fun hasAnagrams(words: List<String>): Boolean {
     val letters = mutableMapOf<Char, Int>()
     val word = mutableSetOf<Map<Char, Int>>()
-    for (i in words.indices) {
-        for (j in words[i].indices) {
-            if (words[i][j] in letters) letters[words[i][j]] ?: +1 else letters += mapOf(words[i][j] to 1)
-        }
+    for (w in words) {
+        for (c in w) letters[c] = letters.getOrDefault(c, 0) + 1
         word += letters
         letters.clear()
     }
