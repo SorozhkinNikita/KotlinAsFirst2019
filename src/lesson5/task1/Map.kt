@@ -169,7 +169,6 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
     val res = mapA.toMutableMap()
     for ((key, value) in mapB) {
         res.merge(key, value) { v1, v2 -> if (v1 == v2) v1 else "$v1, $v2" }
-        //if (key in res && res[key] != value) res[key] += ", $value" else res[key] = value
     }
     return res
 }
@@ -256,12 +255,11 @@ fun extractRepeats(list: List<String>): Map<String, Int> {
  *   hasAnagrams(listOf("тор", "свет", "рот")) -> true
  */
 fun hasAnagrams(words: List<String>): Boolean {
-    val letters = mutableMapOf<Char, Int>()
     val word = mutableSetOf<Map<Char, Int>>()
     for (w in words) {
+        val letters = mutableMapOf<Char, Int>()
         for (c in w) letters[c] = letters.getOrDefault(c, 0) + 1
         word += letters
-        letters.clear()
     }
     return (word.size != words.size)
 }
@@ -331,13 +329,21 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
 fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
-    val l = mutableListOf<Int>()
+    val m = mutableMapOf<Int, Int>()
     for (i in list.indices) {
-        if (list[i] in l) return (l.indexOf(list[i]) to i) else
-            l.add(number - list[i])
+        if (list[i] in m.keys) return (m[list[i]]!! to i) else
+            m[number - list[i]] = i
     }
-    return (-1 to -1)
+    return -1 to -1
 }
+//{
+//    val l = mutableListOf<Int>()
+//    for (i in list.indices) {
+//        if (list[i] in l) return (l.indexOf(list[i]) to i) else
+//            l.add(number - list[i])
+//    }
+//    return (-1 to -1)
+//}
 
 /**
  * Очень сложная
