@@ -217,9 +217,9 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
  * соединяющий две самые удалённые точки в данном множестве.
  */
 fun minContainingCircle(vararg points: Point): Circle {
+    if (points.size == 1) return Circle(points[0], 0.0)
     val p = points.toList().shuffled()
     var res = circleByDiameter(Segment(p[0], p[1]))
-    if (points.size == 1) return Circle(points[0], 0.0)
     for (i in 2 until p.size) {
         if (!res.contains(p[i])) res = circleWithOneFixedPoint(p[i], p.take(i).shuffled())
     }
