@@ -221,7 +221,7 @@ fun minContainingCircle(vararg points: Point): Circle {
     var res = circleByDiameter(Segment(p[0], p[1]))
     if (points.size == 1) return Circle(points[0], 0.0)
     for (i in 2 until p.size) {
-        if (!res.contains(p[i])) res = circleWithOneFixedPoint(p[i], p.shuffled())
+        if (!res.contains(p[i])) res = circleWithOneFixedPoint(p[i], p.take(i).shuffled())
     }
     return res
 }
@@ -229,7 +229,7 @@ fun minContainingCircle(vararg points: Point): Circle {
 fun circleWithOneFixedPoint(point: Point, points: List<Point>): Circle {
     var res = circleByDiameter(Segment(points[0], point))
     for (i in 1 until points.size) {
-        if (!res.contains(points[i])) res = circleWithTwoFixedPoint(point, points[i], points.shuffled())
+        if (!res.contains(points[i])) res = circleWithTwoFixedPoint(point, points[i], points.take(i).shuffled())
     }
     return res
 }
