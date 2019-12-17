@@ -76,14 +76,17 @@ data class Circle(val center: Point, val radius: Double) {
      * расстояние между их центрами минус сумма их радиусов.
      * Расстояние между пересекающимися окружностями считать равным 0.0.
      */
-    fun distance(other: Circle): Double = TODO()
+    fun distance(other: Circle): Double {
+        val d = center.distance(other.center) - (radius + other.radius)
+        return if (d <= 0.0) 0.0 else d
+    }
 
     /**
      * Тривиальная
      *
      * Вернуть true, если и только если окружность содержит данную точку НА себе или ВНУТРИ себя
      */
-    fun contains(p: Point): Boolean = sqr(p.x - center.x) + sqr(p.y - center.y) <= sqr(radius)
+    fun contains(p: Point): Boolean = p.distance(center) - radius <= 1e-7
 }
 
 /**
@@ -113,7 +116,7 @@ fun diameter(vararg points: Point): Segment = TODO()
  */
 fun circleByDiameter(diameter: Segment): Circle =
     Circle(
-        Point((diameter.end.x + diameter.begin.x) / 2, (diameter.end.y + diameter.begin.y) / 2),
+        Point((diameter.begin.x + diameter.end.x) / 2, (diameter.begin.y + diameter.end.y) / 2),
         diameter.begin.distance(diameter.end) / 2
     )
 
@@ -237,7 +240,7 @@ fun circleWithOneFixedPoint(point: Point, points: List<Point>): Circle {
 fun circleWithTwoFixedPoint(point1: Point, point2: Point, points: List<Point>): Circle {
     var res = circleByDiameter(Segment(point1, point2))
     for (point in points) {
-        if (!res.contains(point)) res = circleByThreePoints(point1, point2, point)
+        if (!res.contains(point)) res = circleByThreePoints(point, point1, point2)
     }
     return res
 }
