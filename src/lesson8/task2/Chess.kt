@@ -32,7 +32,13 @@ data class Square(val column: Int, val row: Int) {
  * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
  * Если нотация некорректна, бросить IllegalArgumentException
  */
-fun square(notation: String): Square = TODO()
+fun square(notation: String): Square {
+    require(notation.length == 2)
+    val x = notation[0]
+    val y = notation[1]
+    require(x in 'a'..'h' && y in '1'..'8')
+    return Square(x - 'a' + 1, y - '1' + 1)
+}
 
 /**
  * Простая
@@ -203,4 +209,30 @@ fun knightMoveNumber(start: Square, end: Square): Int = TODO()
  *
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
-fun knightTrajectory(start: Square, end: Square): List<Square> = TODO()
+fun knightTrajectory(start: Square, end: Square): List<Square> {
+    require(start.inside() && end.inside())
+    val steps = listOf(1 to 2, 2 to 1, -1 to 2, -2 to 1, -1 to -2, -2 to -1, 1 to -2, 2 to -1)
+    val needToCheck = mutableListOf(start)
+    val checked = mutableListOf(start)
+    val preTraj = mutableMapOf(start to Square(0, 0))
+    while (needToCheck.isNotEmpty()) {
+        val pos = needToCheck[0]
+        if (pos == end) break
+        checked += pos
+        needToCheck.remove(pos)
+        for ((dx, dy) in steps) {
+            val nextPos = Square(pos.column + dx, pos.row + dy)
+            if (nextPos !in checked && nextPos.inside()) {
+                needToCheck.add(nextPos)
+                preTraj[nextPos] = pos
+            }
+        }
+    }
+    val traj = mutableListOf<Square>()
+    var next = end
+    while (next != Square(0, 0)) {
+        traj.add(next)
+        next = preTraj[next]!!
+    }
+    return traj.reversed()
+}
