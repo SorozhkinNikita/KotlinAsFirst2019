@@ -250,6 +250,7 @@ fun checkPairs(commands: String): Boolean {
             '[' -> score++
             ']' -> score--
         }
+        require(score >= 0)
     }
     return score == 0
 }
