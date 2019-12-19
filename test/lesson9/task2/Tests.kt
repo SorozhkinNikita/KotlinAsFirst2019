@@ -1,5 +1,6 @@
 package lesson9.task2
 
+import lesson6.task1.plusMinus
 import lesson9.task1.Matrix
 import lesson9.task1.createMatrix
 import org.junit.jupiter.api.Assertions.*
@@ -420,5 +421,26 @@ class Tests {
                 listOf(8, 9, 10, 11), listOf(12, 13, 14, 15)
             )
         ).assertSolution()
+    }
+
+    //тест для зачета
+    @Test
+    @Tag("Test")
+    fun happyPeople() {
+        assertEquals(
+            listOf("Сорожкин Никита", "Екатерина Герасина"),
+            lesson9.task2.happyPeople(
+                listOf(
+                    "Сорожкин Никита - Математика 5, Физика 4",
+                    "Фесенко Владислав - Математика 3, Физика 4",
+                    "Екатерина Герасина - Математика 4, Английский 3",
+                    "Михаил Буторин - Английский 3, Политология 2"
+                ), listOf("Политология", "Английский")
+            )
+        )
+        assertThrows(IllegalArgumentException::class.java) { happyPeople(listOf("Nikita Sorozhkin - Mat 6"), listOf()) }
+        assertThrows(IllegalArgumentException::class.java) { happyPeople(listOf("Nikita Sorozhkin"), listOf()) }
+        assertThrows(IllegalArgumentException::class.java) { happyPeople(listOf("Nikita Sorozhkin - Mat"), listOf()) }
+        assertThrows(IllegalArgumentException::class.java) { happyPeople(listOf("Nikita Sorozhkin - Mat "), listOf()) }
     }
 }

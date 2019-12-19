@@ -2,6 +2,7 @@
 
 package lesson9.task2
 
+import lesson9.task1.Cell
 import lesson9.task1.Matrix
 import lesson9.task1.createMatrix
 
@@ -246,6 +247,18 @@ operator fun Matrix<Int>.times(other: Matrix<Int>): Matrix<Int> = TODO(this.toSt
  * 3 10 11  8
  */
 fun fifteenGameMoves(matrix: Matrix<Int>, moves: List<Int>): Matrix<Int> = TODO()
+//{
+//    var zero = Pair(matrix, Cell(-1, -1))
+//    for (i in 0 until matrix.height) {
+//        for (j in 0 until matrix.width) {
+//            if (matrix.get(i, j) == 0) zero.second = Cell(i, j)
+//        }
+//    }
+//    for (i in moves) {
+//
+//    }
+//
+//}
 
 /**
  * Очень сложная
@@ -287,3 +300,29 @@ fun fifteenGameMoves(matrix: Matrix<Int>, moves: List<Int>): Matrix<Int> = TODO(
  * Перед решением этой задачи НЕОБХОДИМО решить предыдущую
  */
 fun fifteenGameSolution(matrix: Matrix<Int>): List<Int> = TODO()
+
+
+//тест для зачета
+fun happyPeople(examResults: List<String>, humSubjects: List<String>): List<String> {
+    val res = mutableListOf<String>()
+    val humSub = humSubjects.toSet()
+    for (str in examResults) {
+        val parts = str.split(" - ")
+        require(parts.size == 2)
+        val name = parts[0]
+        var flag = true
+        val exams = parts[1].split(", ")
+        var chance = true
+        for (exam in exams) {
+            val list = exam.split(" ")
+            require(list.size == 2)
+            val sub = list[0]
+            val mark = list[1].toIntOrNull()
+            require(mark != null && mark in 2..5)
+            if (mark < 4)
+                if (sub in humSub && chance) chance = false else flag = false //flag set test req
+        }
+        if (flag) res.add(name)
+    }
+    return res
+}
