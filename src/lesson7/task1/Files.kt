@@ -340,7 +340,51 @@ Suspendisse <s>et elit in enim tempus iaculis</s>.
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
  */
 fun markdownToHtmlSimple(inputName: String, outputName: String) {
-    TODO()
+    val txt = File(inputName).readText().replace("\r", "").trim('\n')
+    val txtList = mutableListOf("<html><body>", "<p>")
+    val map = mutableMapOf("**" to null, "*" to null, "~~" to null, "\n\n" to 1)
+    var indexOfBeginString = 0
+    var i = 0
+    fun checkMarkToHTML(mark: String, tags: Pair<String, String>): Boolean {
+        if (txt[i] == mark[0]) {
+            var dI = i
+            if (mark.length == 2) if (dI < txt.length - 1 && txt[dI + 1] == mark[1]) dI += 1 else return false
+            if (mark == "\n\n") while (dI < txt.length - 1 && txt[dI + 1] == '\n') dI += 1
+            if (i - indexOfBeginString != 0) txtList.add(txt.substring(indexOfBeginString, i))
+            i = dI
+            indexOfBeginString = i + 1
+            if (map[mark] == null) {
+                map[mark] = txtList.size
+                txtList.add(mark)
+            } else {
+                txtList.add(tags.second)
+                txtList[map[mark]!!] = tags.first
+                map[mark] = null
+                if (mark == "\n\n") {
+                    map[mark] = txtList.size
+                    txtList.add("\n\n")
+                }
+            }
+            return true
+        }
+        return false
+    }
+    while (i < txt.length) {
+        var flag = checkMarkToHTML("**", "<b>" to "</b>")
+        if (!flag) flag = checkMarkToHTML("*", "<i>" to "</i>")
+        if (!flag) flag = checkMarkToHTML("~~", "<s>" to "</s>")
+        if (!flag) checkMarkToHTML("\n\n", "<p>" to "</p>")
+        i += 1
+    }
+    txtList.add(txt.substring(indexOfBeginString, i))
+    val lastP = map["\n\n"]
+    if (lastP != null) {
+        txtList[lastP] = "<p>"
+        txtList.add("</p>")
+    }
+    txtList.add("</body></html>")
+    val res = txtList.joinToString(separator = "")
+    File(outputName).bufferedWriter().use { it.write(res) }
 }
 
 /**
