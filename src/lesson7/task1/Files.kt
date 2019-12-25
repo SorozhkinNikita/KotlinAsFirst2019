@@ -3,6 +3,7 @@
 package lesson7.task1
 
 import java.io.File
+import kotlin.math.max
 
 /**
  * Пример
@@ -123,7 +124,21 @@ fun sibilants(inputName: String, outputName: String) {
  *
  */
 fun centerFile(inputName: String, outputName: String) {
-    TODO()
+    val text = mutableListOf<String>()
+    var maxLength = 0
+    for (line in File(inputName).readLines()) {
+        val trimedLine = line.trim()
+        text.add(trimedLine)
+        maxLength = max(maxLength, trimedLine.length)
+    }
+    File(outputName).bufferedWriter().use {
+        for (line in text) {
+            val lineLength = line.length
+            val res = String.format("%${(maxLength + lineLength) / 2}s", line) + "\n"
+            it.write(res)
+            print(res)
+        }
+    }
 }
 
 /**
