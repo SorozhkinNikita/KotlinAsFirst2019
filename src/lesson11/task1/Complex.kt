@@ -16,12 +16,12 @@ class Complex(val re: Double, val im: Double) {
     /**
      * Конструктор из вещественного числа
      */
-    constructor(x: Double) : this(re, 0.0)
+    constructor(x: Double) : this(x, 0.0)
 
     /**
      * Конструктор из строки вида x+yi
      */
-    constructor(s: String) : this(TODO(), TODO())
+    constructor(s: String) : this(s.split("+").first().toDouble(), s.split("+").first().dropLast(1).toDouble())
 
     /**
      * Сложение.
@@ -60,5 +60,5 @@ class Complex(val re: Double, val im: Double) {
     /**
      * Преобразование в строку
      */
-    override fun toString(): String = if (im > 0)
+    override fun toString(): String = TODO()
 }
