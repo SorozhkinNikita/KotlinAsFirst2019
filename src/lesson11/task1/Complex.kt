@@ -16,7 +16,7 @@ class Complex(val re: Double, val im: Double) {
     /**
      * Конструктор из вещественного числа
      */
-    constructor(x: Double) : this(TODO(), TODO())
+    constructor(x: Double) : this(re, 0.0)
 
     /**
      * Конструктор из строки вида x+yi
@@ -26,35 +26,39 @@ class Complex(val re: Double, val im: Double) {
     /**
      * Сложение.
      */
-    operator fun plus(other: Complex): Complex = TODO()
+    operator fun plus(other: Complex): Complex = Complex(re + this.re, im + this.im)
 
     /**
      * Смена знака (у обеих частей числа)
      */
-    operator fun unaryMinus(): Complex = TODO()
+    operator fun unaryMinus(): Complex = Complex(-this.re, -this.im)
 
     /**
      * Вычитание
      */
-    operator fun minus(other: Complex): Complex = TODO()
+    operator fun minus(other: Complex): Complex = Complex(re - this.re, im - this.im)
 
     /**
      * Умножение
      */
-    operator fun times(other: Complex): Complex = TODO()
+    operator fun times(other: Complex): Complex =
+        Complex(re * this.re - im * this.im, im * this.re + re * this.im)
 
     /**
      * Деление
      */
-    operator fun div(other: Complex): Complex = TODO()
+    operator fun div(other: Complex): Complex {
+        val denominator = this.im * this.im + this.re * this.re
+        return Complex((im * this.im + re * this.re) / denominator, (re * this.im - im * this.re) / denominator)
+    }
 
     /**
      * Сравнение на равенство
      */
-    override fun equals(other: Any?): Boolean = TODO()
+    override fun equals(other: Any?): Boolean = im == this.im && re == this.re
 
     /**
      * Преобразование в строку
      */
-    override fun toString(): String = TODO()
+    override fun toString(): String = if (im > 0)
 }
