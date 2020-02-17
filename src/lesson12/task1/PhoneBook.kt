@@ -38,7 +38,7 @@ class PhoneBook {
      * (во втором случае телефонная книга не должна меняться).
      */
     fun removeHuman(name: String): Boolean {
-        if (!map.contains(name)) return false
+        if (!map.containsKey(name)) return false
         map.remove(name)
         return true
     }
@@ -51,8 +51,8 @@ class PhoneBook {
      * либо такой номер телефона зарегистрирован за другим человеком.
      */
     fun addPhone(name: String, phone: String): Boolean {
-        for ((user, numbers) in map) {
-            if (numbers.contains(phone)) return false
+        for ((key) in map) {
+            if (key.contains(phone)) return false
         }
         if (!map.containsKey(name)) return false
         if (map[name]?.contains(phone)!!) return false
@@ -99,9 +99,10 @@ class PhoneBook {
      * и каждому человеку соответствует одинаковый набор телефонов.
      * Порядок людей / порядок телефонов в книге не должен иметь значения.
      */
-    override fun equals(other: Any?): Boolean = TODO()
-//    {
-//        if (map.size != other.size)
-//        for ((user, numbers) in map)
-//    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is PhoneBook) return false
+        return this.map == other.map
+    }
 }

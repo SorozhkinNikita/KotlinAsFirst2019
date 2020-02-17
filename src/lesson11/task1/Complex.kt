@@ -12,26 +12,37 @@ package lesson11.task1
  * Аргументы конструктора -- вещественная и мнимая часть числа.
  */
 class Complex(val re: Double, val im: Double) {
+//    val re: Double
+//    val im: Double
 
     /**
      * Конструктор из вещественного числа
      */
-    constructor(x: Double) : this(x, 0.0)
+    constructor(x: Double) {
+        re = x
+        im = 0.0
+    }
+    //this(x, 0.0)
 
     /**
      * Конструктор из строки вида x+yi
      */
-    constructor(s: String) :
-    //this(TODO())
-    //s.split("+").first().toDouble(), s.split("+").second().dropLast(1).toDouble()
-    {
-        if (s.contains('+')) {
-            this(s.split("+").first().toDouble(), s.split("+").second().dropLast(1).toDouble())
-        }
-        if (s.contains('i')) {
-            this(0.0, s.dropLast(1).toDouble())
-        }
-        this(s.toDouble(), 0.0)
+    constructor(s: String) {
+        im = splitForReIm(s).first
+        re = splitForReIm(s).second
+    } /*this(
+        splitForReIm(s).first,
+        splitForReIm(s).second
+    )*/
+
+    private fun splitForReIm(s: String): Pair<Double, Double> {
+        if (s.contains('+'))
+            return s.split("+")[0].toDouble() to s.split("+")[1].dropLast(1).toDouble()
+        if (s.contains('-'))
+            return s.split("-")[0].toDouble() to s.split("-")[1].dropLast(1).toDouble()
+        if (s.contains('i'))
+            return 0.0 to s.dropLast(1).toDouble()
+        return s.toDouble() to 0.0
     }
 
     /**
@@ -78,7 +89,7 @@ class Complex(val re: Double, val im: Double) {
             im == 0.0 -> "$re"
             im == 1.0 -> "${re}+i"
             im == -1.0 -> "${re}-i"
-            else -> if (im > 0) "${re}+${im}i" else "${re}${im}i"
+            else -> if (im > 0) "${re}+${im}i" else "${re}-${im}i"
         }
 
 }
