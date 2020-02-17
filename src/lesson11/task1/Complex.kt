@@ -21,8 +21,18 @@ class Complex(val re: Double, val im: Double) {
     /**
      * Конструктор из строки вида x+yi
      */
-    constructor(s: String) : this(TODO())
+    constructor(s: String) :
+    //this(TODO())
     //s.split("+").first().toDouble(), s.split("+").second().dropLast(1).toDouble()
+    {
+        if (s.contains('+')) {
+            this(s.split("+").first().toDouble(), s.split("+").second().dropLast(1).toDouble())
+        }
+        if (s.contains('i')) {
+            this(0.0, s.dropLast(1).toDouble())
+        }
+        this(s.toDouble(), 0.0)
+    }
 
     /**
      * Сложение.
