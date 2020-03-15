@@ -12,29 +12,14 @@ package lesson11.task1
  * Аргументы конструктора -- вещественная и мнимая часть числа.
  */
 class Complex(val re: Double, val im: Double) {
-//    val re: Double
-//    val im: Double
-
     /**
      * Конструктор из вещественного числа
      */
-    constructor(x: Double) {
-        re = x
-        im = 0.0
-    }
-    //this(x, 0.0)
+    constructor(x: Double) : this(x, 0.0)
 
     /**
      * Конструктор из строки вида x+yi
      */
-    constructor(s: String) {
-        im = splitForReIm(s).first
-        re = splitForReIm(s).second
-    } /*this(
-        splitForReIm(s).first,
-        splitForReIm(s).second
-    )*/
-
     private fun splitForReIm(s: String): Pair<Double, Double> {
         if (s.contains('+'))
             return s.split("+")[0].toDouble() to s.split("+")[1].dropLast(1).toDouble()
@@ -44,6 +29,10 @@ class Complex(val re: Double, val im: Double) {
             return 0.0 to s.dropLast(1).toDouble()
         return s.toDouble() to 0.0
     }
+
+    constructor(s: String) : this(splitForReIm(s).first, splitForReIm(s).second)
+
+
 
     /**
      * Сложение.
