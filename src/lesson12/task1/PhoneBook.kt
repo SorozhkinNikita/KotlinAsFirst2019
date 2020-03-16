@@ -51,8 +51,8 @@ class PhoneBook {
      * либо такой номер телефона зарегистрирован за другим человеком.
      */
     fun addPhone(name: String, phone: String): Boolean {
-        for ((key) in map) {
-            if (key.contains(phone)) return false
+        for ((key, value) in map) {
+            if (value.contains(phone)) return false
         }
         if (!map.containsKey(name)) return false
         if (map[name]?.contains(phone)!!) return false
@@ -105,4 +105,8 @@ class PhoneBook {
         if (other !is PhoneBook) return false
         return this.map == other.map
     }
+
+    override fun hashCode(): Int = map.hashCode()
+
+
 }
