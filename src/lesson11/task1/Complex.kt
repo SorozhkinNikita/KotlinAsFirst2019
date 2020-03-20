@@ -70,14 +70,18 @@ class Complex(val re: Double, val im: Double) {
     /**
      * Сравнение на равенство
      */
-    override fun equals(other: Any?): Boolean = im == this.im && re == this.re
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is Complex) return false
+        return re == other.re && im == other.im
+    }
 
     /**
      * Преобразование в строку
      */
     override fun toString(): String =
         when {
-            im == 0.0 && re == 0.0 -> ""
+            im == 0.0 && re == 0.0 -> "0.0"
             re == 0.0 -> "${im}i"
             im == 0.0 -> "$re"
             im == 1.0 -> "${re}+i"
