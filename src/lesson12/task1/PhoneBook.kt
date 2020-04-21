@@ -52,10 +52,10 @@ class PhoneBook {
      */
     fun addPhone(name: String, phone: String): Boolean {
         for ((key, value) in map) {
-            if (value.contains(phone)) return false
+            if (value.contains(phone) || name == key && phone in value) return false
+
         }
         if (!map.containsKey(name)) return false
-        if (map[name]?.contains(phone)!!) return false
         map[name]?.add(phone)
         return true
     }
@@ -67,8 +67,11 @@ class PhoneBook {
      * либо у него не было такого номера телефона.
      */
     fun removePhone(name: String, phone: String): Boolean {
-        if (!map.contains(name)) return false
-        if (!map[name]?.contains(phone)!!) return false
+        var inStock = false
+        for ((key, value) in map) {
+            if (key == name && phone in value) inStock = true
+        }
+        if (!inStock) return false
         map[name]?.remove(phone)
         return true
     }
@@ -77,10 +80,8 @@ class PhoneBook {
      * Вернуть все номера телефона заданного человека.
      * Если этого человека нет в книге, вернуть пустой список
      */
-    fun phones(name: String): Set<String> {
-        if (!map.contains(name)) return setOf()
-        return map[name]?.toSet()!!
-    }
+    fun phones(name: String): Set<String> = map[name] ?: setOf()
+
 
     /**
      * Вернуть имя человека по заданному номеру телефона.
