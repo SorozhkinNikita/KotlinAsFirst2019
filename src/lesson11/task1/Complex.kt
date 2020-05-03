@@ -11,15 +11,7 @@ package lesson11.task1
  *
  * Аргументы конструктора -- вещественная и мнимая часть числа.
  */
-private fun splitForReIm(s: String): Pair<Double, Double> {
-    if (s.contains('+'))
-        return s.split("+")[0].toDouble() to s.split("+")[1].dropLast(1).toDouble()
-    if (s.contains('-'))
-        return s.split("-")[0].toDouble() to -s.split("-")[1].dropLast(1).toDouble()
-    if (s.contains('i'))
-        return 0.0 to s.dropLast(1).toDouble()
-    return s.toDouble() to 0.0
-}
+
 
 class Complex(val re: Double, val im: Double) {
     /**
@@ -30,7 +22,46 @@ class Complex(val re: Double, val im: Double) {
     /**
      * Конструктор из строки вида x+yi
      */
+    companion object {
+        private fun checkIm(s: String): Double {
+            return if (s == "i") 1.0
+            else s.dropLast(1).toDouble()
+        }
 
+        fun splitForReIm(s: String): Pair<Double, Double> {
+            if (s == "") return 0.0 to 0.0
+            var plus = 0
+            var minus = 0
+            for (simbol in s) {
+                if (simbol == '+') plus++
+                if (simbol == '-') minus++
+            }
+            val list: List<String>
+            //через regex никак не получалось(
+            //val regex = Regex("""\+|-""")
+            when {
+                plus == 1 -> {
+                    list = s.split('+')/*regex.split(s)*/
+                    return list[0].toDouble() to checkIm(list[1])
+                }
+                minus == 2 -> {
+                    list = s.split('-')/*regex.split(s)*/
+                    return (-1) * list[1].toDouble() to (-1) * checkIm(list[2])
+                }
+                minus == 1 -> {
+                    if (s.last() != 'i') return s.toDouble() to 0.0
+                    list = s.split('-')/*regex.split(s)*/
+                    if (list[0] == "") return 0.0 to (-1) * checkIm(list[1])
+                    return list[0].toDouble() to (-1) * checkIm(list[1])
+                }
+                else -> {
+                    if (s.last() != 'i') return s.toDouble() to 0.0
+                    if (s == "i") return 0.0 to 1.0
+                    return 0.0 to s.dropLast(1).toDouble()
+                }
+            }
+        }
+    }
 
     constructor(s: String) : this(splitForReIm(s).first, splitForReIm(s).second)
 
@@ -76,6 +107,7 @@ class Complex(val re: Double, val im: Double) {
         return re == other.re && im == other.im
     }
 
+    override fun hashCode(): Int = super.hashCode()
     /**
      * Преобразование в строку
      */

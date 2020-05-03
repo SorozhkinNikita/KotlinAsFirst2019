@@ -38,6 +38,21 @@ internal class ComplexTest {
 
     @Test
     fun equals() {
+        assertApproxEquals(Complex(1.0, -1.0), Complex("1-i"), 1e-12)
+        assertApproxEquals(Complex(-1.0, 1.0), Complex("-1+i"), 1e-12)
+        assertApproxEquals(Complex(-1.0, -1.0), Complex("-1-i"), 1e-12)
+        assertApproxEquals(Complex(0.0, 1.0), Complex("i"), 1e-12)
+        assertApproxEquals(Complex(0.0, -1.0), Complex("-i"), 1e-12)
+        assertApproxEquals(Complex(1.0, 1.0), Complex("1+i"), 1e-12)
+
+        assertApproxEquals(Complex(0.0, 0.0), Complex(""), 1e-12)
+        assertApproxEquals(Complex(1.0, -2.0), Complex("1-2i"), 1e-12)
+        assertApproxEquals(Complex(-1.0, 2.0), Complex("-1+2i"), 1e-12)
+        assertApproxEquals(Complex(-1.0, -2.0), Complex("-1-2i"), 1e-12)
+        assertApproxEquals(Complex(1.0, 0.0), Complex("1"), 1e-12)
+        assertApproxEquals(Complex(-1.0, 0.0), Complex("-1"), 1e-12)
+        assertApproxEquals(Complex(0.0, 2.0), Complex("2i"), 1e-12)
+        assertApproxEquals(Complex(0.0, -2.0), Complex("-2i"), 1e-12)
         assertApproxEquals(Complex(1.0, 2.0), Complex("1+2i"), 1e-12)
         assertApproxEquals(Complex(1.0, 0.0), Complex(1.0), 1e-12)
     }
