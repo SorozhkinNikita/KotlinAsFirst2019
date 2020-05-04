@@ -37,11 +37,8 @@ class PhoneBook {
      * и false, если человек с таким именем отсутствовал в телефонной книге
      * (во втором случае телефонная книга не должна меняться).
      */
-    fun removeHuman(name: String): Boolean {
-        if (!map.containsKey(name)) return false
-        map.remove(name)
-        return true
-    }
+    fun removeHuman(name: String): Boolean = map.remove(name) != null
+
 
     /**
      * Добавить номер телефона.
@@ -51,11 +48,12 @@ class PhoneBook {
      * либо такой номер телефона зарегистрирован за другим человеком.
      */
     fun addPhone(name: String, phone: String): Boolean {
-        for ((key, value) in map) {
-            if (value.contains(phone) || name == key && phone in value) return false
-
+        var flag = false
+        for (note in map) {
+            if (note.value.contains(phone)) return false
+            if (note.key == name) flag = true
         }
-        if (!map.containsKey(name)) return false
+        if (!flag) return false
         map[name]?.add(phone)
         return true
     }
@@ -67,11 +65,7 @@ class PhoneBook {
      * либо у него не было такого номера телефона.
      */
     fun removePhone(name: String, phone: String): Boolean {
-        var inStock = false
-        for ((key, value) in map) {
-            if (key == name && phone in value) inStock = true
-        }
-        if (!inStock) return false
+        if (name !in map || !map[name]?.contains(phone)!!) return false
         map[name]?.remove(phone)
         return true
     }
